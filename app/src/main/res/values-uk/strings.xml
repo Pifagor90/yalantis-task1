@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">YalantisTask1</string>
+    <string name="main_activity_created">Створено</string>
+    <string name="main_activity_registred">Зареєстровано</string>
+    <string name="main_activity_responsible">Відповідальний</string>
+    <string name="main_activity_finish_up_to">Вирішити до</string>
+    <string name="main_activity_button_in_progress">В роботі</string>
+    <string name="main_activity_municipal_services">Комунальне господарство</string>
+</resources>

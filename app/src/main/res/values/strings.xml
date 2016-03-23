@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">YalantisTask1</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="main_activity_municipal_services">Municipal services</string>
+    <string name="main_activity_created">Created</string>
+    <string name="main_activity_registred">Registred</string>
+    <string name="main_activity_finish_up_to">Finish up to</string>
+    <string name="main_activity_responsible">Responsible</string>
+    <string name="main_activity_button_in_progress">In progress</string>
+</resources>

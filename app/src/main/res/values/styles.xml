@@ -1,0 +1,53 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="content_main_row" parent="width_match_height_wrap">
+        <item name="android:paddingTop">@dimen/content_main_row_paddingTop</item>
+        <item name="android:paddingBottom">@dimen/content_main_row_paddingBottom</item>
+    </style>
+
+    <style name="all_wrap_content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="width_match_height_wrap">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="content_main_system_TextView" parent="all_wrap_content">
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:textSize">@dimen/text_size</item>
+    </style>
+
+    <style name="content_main_input_TextColor" parent="all_wrap_content">
+        <item name="android:textColor">@color/content_main_input_TextColor</item>
+    </style>
+
+    <style name="content_main_input_TextColor.TextSize" parent="content_main_input_TextColor">
+        <item name="android:textSize">@dimen/text_size</item>
+    </style>
+
+    <style name="content_main_input_TextView" parent="content_main_input_TextColor.TextSize">
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+
+
+</resources>
