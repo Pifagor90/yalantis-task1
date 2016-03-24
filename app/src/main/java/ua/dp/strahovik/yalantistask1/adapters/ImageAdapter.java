@@ -20,10 +20,14 @@ import java.util.List;
 
 import ua.dp.strahovik.yalantistask1.R;
 
-public class ImageAdapter extends RecyclerView.Adapter <ImageAdapter.ViewHolder>{
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
     private List<URI> mList;
     private Context mContext;
+
+    public ImageAdapter(List<URI> list) {
+        this.mList = list;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -36,34 +40,28 @@ public class ImageAdapter extends RecyclerView.Adapter <ImageAdapter.ViewHolder>
     }
 
 
-    public ImageAdapter(List<URI> list) {
-        this.mList = list;
-    }
-
     @Override
     public ImageAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (mContext == null){
+        if (mContext == null) {
             mContext = parent.getContext();
         }
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
         View imageView = layoutInflater.inflate(R.layout.item_image, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(imageView);
-
-        return viewHolder;
+        return new ViewHolder(imageView);
     }
 
     @Override
     public void onBindViewHolder(ImageAdapter.ViewHolder holder, int position) {
         URI uri = mList.get(position);
 
-         final int pos = position;
+        final int pos = position;
         ImageView imageView = holder.mImageView;
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "ImageVew #" + pos + " was pressed",Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "ImageVew #" + pos + " was pressed", Toast.LENGTH_LONG).show();
             }
         });
         Picasso.with(mContext)

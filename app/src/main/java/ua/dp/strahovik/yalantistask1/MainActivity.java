@@ -26,12 +26,24 @@ import ua.dp.strahovik.yalantistask1.listeners.ExitOnClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
-//    TODO: should be chenged for @DagerInject
+    //    TODO: should be changed for @DagerInject
     private EventDao mEventDao = new EventDaoMock();
     private Event mEvent;
+    private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
+
     private Button mEventStateButton;
+    private TextView mMenuTextView;
+    private TextView mCreationDateTextView;
+    private TextView mRegistrationDateTextView;
+    private TextView mDeadlineDateTextView;
+    private TextView mResponsibleTextView;
+    private TextView mDescriptionTextView;
+
+    private ImageButton mExitButton;
+
     private String mInitialId = "CET-23475287";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,59 +53,60 @@ public class MainActivity extends AppCompatActivity {
         mEvent = mEventDao.getEventById(mInitialId);
         /*End of retrieving data*/
 
+        initWidgets();
         initRecycleView();
-
         initDataToViews();
-
         setListeners();
-
     }
+
+    private void initWidgets() {
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        mEventStateButton = (Button) findViewById(R.id.button_state);
+        mMenuTextView = (TextView) findViewById(R.id.eventId);
+        mCreationDateTextView = (TextView) findViewById(R.id.created_date);
+        mRegistrationDateTextView = (TextView) findViewById(R.id.registred_date);
+        mDeadlineDateTextView = (TextView) findViewById(R.id.deadline_date);
+        mResponsibleTextView = (TextView) findViewById(R.id.responsible_name);
+        mDescriptionTextView = (TextView) findViewById(R.id.description_text);
+
+        mExitButton = (ImageButton) findViewById(R.id.exitButton);
+    }
+
     /*Generating recycleView*/
     private void initRecycleView() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new ImageRecyclerDecorator());
-        ImageAdapter adapter = new ImageAdapter(mEvent.getPhotos());
 
-        recyclerView.setAdapter(adapter);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.addItemDecoration(new ImageRecyclerDecorator(this));
+
+        ImageAdapter adapter = new ImageAdapter(mEvent.getPhotos());
+        mRecyclerView.setAdapter(adapter);
     }
 
     /*Initialize all data from Dao to views*/
     private void initDataToViews() {
-        mEventStateButton = (Button) findViewById(R.id.button_state);
-        if (mEvent.getEventState().equals("In progress")){
+
+        if (mEvent.getEventState().equals("In progress")) {
             mEventStateButton.setText(R.string.main_activity_button_in_progress);
         } else {
             throw new IllegalArgumentException("Event state cant anything except \"In progress\"");
         }
 
-        TextView menuTextView = (TextView) findViewById(R.id.eventId);
-        menuTextView.setText(mInitialId);
-
+        mMenuTextView.setText(mInitialId);
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d MMMM yyyy");
-        TextView creationDateTextView = (TextView) findViewById(R.id.created_date);
-        creationDateTextView.setText(simpleDateFormat.format(mEvent.getCreationDate()));
-
-        TextView registrationDateTextView = (TextView) findViewById(R.id.registred_date);
-        registrationDateTextView.setText(simpleDateFormat.format(mEvent.getRegistrationDate()));
-
-        TextView deadlineDateTextView = (TextView) findViewById(R.id.deadline_date);
-        deadlineDateTextView.setText(simpleDateFormat.format(mEvent.getDeadlineDate()));
-
-        TextView responsibleTextView = (TextView) findViewById(R.id.responsible_name);
-        responsibleTextView.setText(mEvent.getResponsible().getName());
-
-        TextView descriptionTextView = (TextView) findViewById(R.id.description_text);
-        descriptionTextView.setText(mEvent.getDescription());
+        mCreationDateTextView.setText(simpleDateFormat.format(mEvent.getCreationDate()));
+        mRegistrationDateTextView.setText(simpleDateFormat.format(mEvent.getRegistrationDate()));
+        mDeadlineDateTextView.setText(simpleDateFormat.format(mEvent.getDeadlineDate()));
+        mResponsibleTextView.setText(mEvent.getResponsible().getName());
+        mDescriptionTextView.setText(mEvent.getDescription());
     }
 
     private void setListeners() {
 
-        ImageButton exitButton = (ImageButton) findViewById(R.id.exitButton);
-        exitButton.setOnClickListener(new ExitOnClickListener(this));
-
+        mExitButton.setOnClickListener(new ExitOnClickListener(this));
         mEventStateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
