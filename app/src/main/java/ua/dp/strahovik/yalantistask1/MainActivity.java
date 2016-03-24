@@ -25,8 +25,12 @@ import ua.dp.strahovik.yalantistask1.entities.Event;
 import ua.dp.strahovik.yalantistask1.listeners.ExitOnClickListener;
 
 public class MainActivity extends AppCompatActivity {
-
+    //[Comment] Wrong toolbar and status bar colors
+    //[Comment] Wrong back button resource
+    //[Comemnt] Title is too bold
     //    TODO: should be changed for @DagerInject
+    //[Comment] Dagger is cool think but we don't use it now.
+    //[Comment] Wrong top padding
     private EventDao mEventDao = new EventDaoMock();
     private Event mEvent;
     private RecyclerView mRecyclerView;
@@ -42,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton mExitButton;
 
-    private String mInitialId = "CET-23475287";
+    private String mInitialId = "CET-23475287"; //[Comment] I think it should be final
 
 
     @Override
@@ -89,14 +93,14 @@ public class MainActivity extends AppCompatActivity {
     /*Initialize all data from Dao to views*/
     private void initDataToViews() {
 
-        if (mEvent.getEventState().equals("In progress")) {
+        if (mEvent.getEventState().equals("In progress")) { //[Comment] Hardcode
             mEventStateButton.setText(R.string.main_activity_button_in_progress);
         } else {
-            throw new IllegalArgumentException("Event state cant anything except \"In progress\"");
+            throw new IllegalArgumentException("Event state cant anything except \"In progress\""); //[Comment] Hardcode
         }
 
         mMenuTextView.setText(mInitialId);
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d MMMM yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d MMMM yyyy"); //[Comment] Hardcode
         mCreationDateTextView.setText(simpleDateFormat.format(mEvent.getCreationDate()));
         mRegistrationDateTextView.setText(simpleDateFormat.format(mEvent.getRegistrationDate()));
         mDeadlineDateTextView.setText(simpleDateFormat.format(mEvent.getDeadlineDate()));
@@ -110,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         mEventStateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Button state was pressed", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Button state was pressed", Toast.LENGTH_LONG).show(); //[Comment] Hardcode
             }
         });
 

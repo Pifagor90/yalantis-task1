@@ -26,12 +26,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     private Context mContext;
 
     public ImageAdapter(List<URI> list) {
-        this.mList = list;
+        this.mList = list; //[Comment] mList = list
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView mImageView;
+        public ImageView mImageView; //[Comment] Wrong visibility modifier
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -61,7 +61,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "ImageVew #" + pos + " was pressed", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "ImageVew #" + pos + " was pressed", Toast.LENGTH_LONG).show(); //[Comment] Hardcode
             }
         });
         Picasso.with(mContext)

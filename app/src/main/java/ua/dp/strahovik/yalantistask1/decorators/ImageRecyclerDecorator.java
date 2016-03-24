@@ -15,7 +15,7 @@ import ua.dp.strahovik.yalantistask1.R;
 
 public class ImageRecyclerDecorator extends RecyclerView.ItemDecoration {
 
-    private Activity mActivity;
+    private Activity mActivity; //[Comment] Don't use activity. Use context
 
     public ImageRecyclerDecorator(Activity activity) {
         super();
