@@ -10,5 +10,5 @@ import ua.dp.strahovik.yalantistask1.entities.Company;
 public interface CompanyDao {
 
 
-    public Company getCompanyByName(String name); //[Comment] public is default modifier
+    Company getCompanyByName(String name);
 }

@@ -13,33 +13,13 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <LinearLayout
-            android:id="@+id/headerText"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            android:gravity="center_vertical">
+            android:layout_height="?actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-            <ImageButton
-                android:id="@+id/exitButton"
-                android:layout_width="@dimen/arrow_width"
-                android:layout_height="@dimen/arrow_height"
-                android:src="@drawable/arrow"
-                android:background="#00ffffff"
-                android:scaleType="fitXY"
-                android:layout_marginLeft="@dimen/arrow_marginLeft" />
-
-            <TextView
-                android:id="@+id/eventId"
-                android:text="testText"
-                android:textColor="@color/id_button_text_color"
-                android:textSize="@dimen/id_text_size"
-                android:textStyle="bold"
-                android:typeface="normal"
-                android:paddingLeft="@dimen/min_padding"
-                android:paddingRight="@dimen/min_padding"
-                style="@style/all_wrap_content"/>
-        </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main" />

@@ -7,4 +7,7 @@
     <color name="app_bckgr_color">#e6e6e6</color>
     <color name="content_main_input_TextColor">#030000</color>
     <color name="id_button_text_color">#ffffff</color>
+    <color name="AppBar">#4a76a9</color>
+    <color name="StatusBar">#355376</color>
+
 </resources>

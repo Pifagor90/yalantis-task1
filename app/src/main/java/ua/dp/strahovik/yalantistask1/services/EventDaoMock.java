@@ -6,38 +6,50 @@ Copyright info
 package ua.dp.strahovik.yalantistask1.services;
 
 
+import android.content.Context;
+import android.util.Log;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import ua.dp.strahovik.yalantistask1.R;
 import ua.dp.strahovik.yalantistask1.entities.Event;
 
 public class EventDaoMock implements EventDao {
 
-    private static CompanyDao sCompanyDao = new CompanyDaoMock(); //[Comment] Why is it static?
+    private Context mContext;
+    private CompanyDaoMock mCompanyDaoMock = new CompanyDaoMock();
 
-    private static Event eventFactory (String id){
+    public EventDaoMock(Context context) {
+        mContext = context;
+    }
+
+    private Event eventFactory (String id){
         Event event = new Event();
         event.setId(id);
-        event.setCreationDate(new Date(System.currentTimeMillis() - (5 * 1000 * 60 * 60 * 24))); //[Comment] Magic numbers
-        event.setDeadlineDate(new Date(System.currentTimeMillis() - (1 * 1000 * 60 * 60 * 24))); //[Comment] Magic numbers
-        event.setRegistrationDate(new Date(System.currentTimeMillis() - (4 * 1000 * 60 * 60 * 24))); //[Comment] Magic numbers
-        event.setDescription("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt" +
-                " ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi" +
-                " ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum " +
-                "dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia" +
-                " deserunt mollit anim id est laborum."); //[Comment] Hardcode
-        event.setResponsible(sCompanyDao.getCompanyByName("Dnipr MVK"));//[Comment] Hardcode
-        event.setEventState("In progress"); //[Comment] Hardcode
+        final int dayInMillis = 1000 * 60 * 60 * 24; //Not sure if this has to be transferred to R.integers
+        event.setCreationDate(new Date(System.currentTimeMillis() - (5 * dayInMillis)));
+        event.setDeadlineDate(new Date(System.currentTimeMillis() - (1 * dayInMillis)));
+        event.setRegistrationDate(new Date(System.currentTimeMillis() - (4 * dayInMillis)));
+        event.setDescription(mContext.getString(R.string.EventDaoMock_description));
+        event.setResponsible(mCompanyDaoMock.getCompanyByName(mContext.getString(R.string.EventDaoMock_company_name)));
+        event.setEventState(mContext.getString(R.string.main_activity_button_in_progress));
 
-        ArrayList<URI> list = new ArrayList<URI>(); //[Comment] Use abstraction instead of realization.
+        List<URI> list = new ArrayList<>();
         try {
-            list.add(new URI("http://i.imgur.com/JnogEyO.jpg")); //[Comment] Hardcode
-            list.add(new URI("http://i.imgur.com/45M76q0.jpg")); //[Comment] Hardcode
-            list.add(new URI("http://i.imgur.com/OB5xinf.jpg")); //[Comment] Hardcode
-            list.add(new URI("http://i.imgur.com/HkdMadu.png")); //[Comment] Hardcode
-        }  catch (URISyntaxException NOP) {} //[Comment] What will happen if catch will work
+/*            TODO: unfortunately it does not work. find out why
+            list.addAll(Arrays.<URI>asList(mContext.getResources().getStringArray(R.string.EventDaoMock_URI));
+            */
+            list.add(new URI(mContext.getString(R.string.EventDaoMock_URI_1)));
+            list.add(new URI(mContext.getString(R.string.EventDaoMock_URI_2)));
+            list.add(new URI(mContext.getString(R.string.EventDaoMock_URI_3)));
+            list.add(new URI(mContext.getString(R.string.EventDaoMock_URI_4)));
+        }  catch (URISyntaxException e) {
+            Log.e(mContext.getString(R.string.Log_tag),mContext.getString(R.string.EventDaoMock_URI_exception) + e);
+        }
 
         event.setPhotos(list);
 
