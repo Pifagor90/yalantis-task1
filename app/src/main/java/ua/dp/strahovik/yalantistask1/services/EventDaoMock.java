@@ -38,7 +38,7 @@ public class EventDaoMock implements EventDao {
         event.setResponsible(mCompanyDaoMock.getCompanyByName(mContext.getString(R.string.EventDaoMock_company_name)));
         event.setEventState(mContext.getString(R.string.main_activity_button_in_progress));
 
-        List<URI> list = new ArrayList<>();
+        List<URI> list = new ArrayList<URI>();
         try {
 /*            TODO: unfortunately it does not work. find out why
             list.addAll(Arrays.<URI>asList(mContext.getResources().getStringArray(R.string.EventDaoMock_URI));
