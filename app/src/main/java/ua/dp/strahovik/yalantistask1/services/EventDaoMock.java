@@ -41,15 +41,10 @@ public class EventDaoMock implements EventDao {
 
         List<URI> list = new ArrayList<URI>();
         try {
-//            TODO: delete strings and comments
             String[] uriAsString = mContext.getResources().getStringArray(R.array.EventDaoMock_URI_array);
             for (String element : uriAsString) {
                 list.add(new URI(element));
             }
-/*            list.add(new URI(mContext.getString(R.string.EventDaoMock_URI_1)));
-            list.add(new URI(mContext.getString(R.string.EventDaoMock_URI_2)));
-            list.add(new URI(mContext.getString(R.string.EventDaoMock_URI_3)));
-            list.add(new URI(mContext.getString(R.string.EventDaoMock_URI_4)));*/
         }  catch (URISyntaxException e) {
             Log.e(mContext.getString(R.string.Log_tag),mContext.getString(R.string.EventDaoMock_URI_exception) + e);
         }
