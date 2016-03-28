@@ -12,6 +12,7 @@ import android.util.Log;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -40,13 +41,15 @@ public class EventDaoMock implements EventDao {
 
         List<URI> list = new ArrayList<URI>();
         try {
-/*            TODO: unfortunately it does not work. find out why
-            list.addAll(Arrays.<URI>asList(mContext.getResources().getStringArray(R.string.EventDaoMock_URI));
-            */
-            list.add(new URI(mContext.getString(R.string.EventDaoMock_URI_1)));
+//            TODO: delete strings and comments
+            String[] uriAsString = mContext.getResources().getStringArray(R.array.EventDaoMock_URI_array);
+            for (String element : uriAsString) {
+                list.add(new URI(element));
+            }
+/*            list.add(new URI(mContext.getString(R.string.EventDaoMock_URI_1)));
             list.add(new URI(mContext.getString(R.string.EventDaoMock_URI_2)));
             list.add(new URI(mContext.getString(R.string.EventDaoMock_URI_3)));
-            list.add(new URI(mContext.getString(R.string.EventDaoMock_URI_4)));
+            list.add(new URI(mContext.getString(R.string.EventDaoMock_URI_4)));*/
         }  catch (URISyntaxException e) {
             Log.e(mContext.getString(R.string.Log_tag),mContext.getString(R.string.EventDaoMock_URI_exception) + e);
         }
