@@ -19,7 +19,7 @@ public class ImageRecyclerDecorator extends RecyclerView.ItemDecoration {
 
     public ImageRecyclerDecorator(Context context) {
         super();
-        this.mContext = context;
+        this.mContext = context; //[Comment] Without "this"
     }
 
     @Override
