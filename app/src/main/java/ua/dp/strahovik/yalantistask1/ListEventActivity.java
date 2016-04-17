@@ -9,6 +9,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -47,88 +48,28 @@ public class ListEventActivity extends AppCompatActivity
         setContentView(R.layout.activity_list_event);
 
         initViewsAndData();
-//        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-//
-//        setSupportActionBar(mToolbar);
-//        mActionBar = getSupportActionBar();
-//        mFloatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
-
         initFloatingActionButton();
-//        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                NOP
-//            }
-//        });
-
-
-//        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        initDrawer();
-//        mActionBarDrawerToggle = new ActionBarDrawerToggle(
-//                this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        mActionBarDrawerToggle.setDrawerIndicatorEnabled(false);
-//        Drawable modifiedHamburgerIcon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, getTheme());
-//        mActionBarDrawerToggle.setHomeAsUpIndicator(modifiedHamburgerIcon);
-//        mActionBarDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mDrawer.isDrawerVisible(GravityCompat.START)) {
-//                    mDrawer.closeDrawer(GravityCompat.START);
-//                } else {
-//                    mDrawer.openDrawer(GravityCompat.START);
-//                }
-//            }
-//        });
-//
-//        mIconImage = (ImageButton) ToolbarNavigationUtil.getToolbarNavigationIcon(mToolbar);
-//        mDrawer.addDrawerListener(mActionBarDrawerToggle);
-//        mDrawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
-//            @Override
-//            public void onDrawerSlide(View drawerView, float slideOffset) {
-//                super.onDrawerSlide(drawerView, slideOffset);
-//                mIconImage.setRotation(slideOffset * 360);
-//            }
-//        });
-//        mActionBarDrawerToggle.syncState();
-
-
-
-//        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-        mNavigationView.setNavigationItemSelectedListener(this);
-
-//        mNavigationFooterLinksTextView = (TextView)findViewById(R.id.NavigationView_footer_links);
-        mNavigationFooterLinksTextView.setMovementMethod(LinkMovementMethod.getInstance());
-
-
-//        mEventDao = new EventDaoMock(this);
-//        mTabLayout = (TabLayout) findViewById(R.id.list_event_TabLayout);
-//        mViewPager = (ViewPager) findViewById(R.id.pager);
-
+        initNavigationView();
         initPager();
-//        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(),
-//                mTabLayout.getTabCount(), getApplicationContext(), mEventDao, mFloatingActionButton);
-//        mViewPager.setAdapter(adapter);
-//        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-//        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                mViewPager.setCurrentItem(tab.getPosition());
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
-
     }
+
+
+    private void initViewsAndData() {
+//        Data
+        mEventDao = new EventDaoMock(this);
+
+//        Views
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        mActionBar = getSupportActionBar();
+        mFloatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationFooterLinksTextView = (TextView) findViewById(R.id.NavigationView_footer_links);
+        mTabLayout = (TabLayout) findViewById(R.id.list_event_TabLayout);
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+    }
+
 
     private void initFloatingActionButton() {
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -139,31 +80,8 @@ public class ListEventActivity extends AppCompatActivity
         });
     }
 
-    private void initPager() {
-        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(),
-                mTabLayout.getTabCount(), getApplicationContext(), mEventDao, mFloatingActionButton);
-        mViewPager.setAdapter(adapter);
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-    }
-
-    private void initDrawer() {
+    private void initNavigationView() {
         mActionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mActionBarDrawerToggle.setDrawerIndicatorEnabled(false);
@@ -189,30 +107,44 @@ public class ListEventActivity extends AppCompatActivity
         mDrawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             private final int niceRotationCoefficient = getResources().
                     getInteger(R.integer.niceRotationCoefficient);
+
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
                 mIconImage.setRotation(slideOffset * niceRotationCoefficient);
             }
         });
+
         mActionBarDrawerToggle.syncState();
+
+        mNavigationView.setNavigationItemSelectedListener(this);
+//        Enabling links in text
+        mNavigationFooterLinksTextView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
 
-    private void initViewsAndData (){
-//        Data
-        mEventDao = new EventDaoMock(this);
+    private void initPager() {
+        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(),
+                mTabLayout.getTabCount(), getApplicationContext(), mEventDao, mFloatingActionButton);
+        mViewPager.setAdapter(adapter);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
-//        Views
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        mActionBar = getSupportActionBar();
-        mFloatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-        mNavigationFooterLinksTextView = (TextView)findViewById(R.id.NavigationView_footer_links);
-        mTabLayout = (TabLayout) findViewById(R.id.list_event_TabLayout);
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+//                NOP
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+//                NOP
+            }
+        });
     }
 
 
@@ -222,14 +154,6 @@ public class ListEventActivity extends AppCompatActivity
         mActionBarDrawerToggle.syncState();
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-//            mDrawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -238,19 +162,6 @@ public class ListEventActivity extends AppCompatActivity
         return true;
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -264,8 +175,6 @@ public class ListEventActivity extends AppCompatActivity
             // Handle the requests_at_map
         }
         mDrawer.closeDrawer(GravityCompat.START);
-//        TODO mb delete this supportInvalidateOptionsMenu();
-        supportInvalidateOptionsMenu();
         return true;
     }
 }

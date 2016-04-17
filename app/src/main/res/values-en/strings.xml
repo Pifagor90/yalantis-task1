@@ -6,14 +6,11 @@
     <string name="main_activity_finish_up_to">Finish up to</string>
     <string name="main_activity_registred">Registred</string>
     <string name="main_activity_responsible">Responsible</string>
-    <string name="main_activity_municipal_services">Municipal services</string>
     <string name="EventDaoMock_company_name">Dnipr MVK</string>
     <string name="toast_state_button">Button state was pressed</string>
-    <string name="main_activity_event_state_illega_arg_exception">Event state cant be anything except \"In progress\"</string>
     <string name="toast_image_part_1">ImageView #</string>
     <string name="EventDaoMock_URI_exception">progarmmer entered wrong uri in EventDaoMock</string>
     <string name="EventDaoMock_description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididuntut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="toast_image_part_2"> was pressed</string>
     <string name="title_activity_list_event">All requests</string>
-    <string name="days"> days</string>
 </resources>

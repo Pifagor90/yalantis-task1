@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:paddingLeft="16dp"
-        android:paddingBottom="24dp"
-        android:text="e-contact"
-        android:textSize="24sp"
+        android:paddingLeft="@dimen/nav_header_vertical_spacing"
+        android:paddingBottom="@dimen/nav_header_bot_padding"
+        android:text="@string/nav_view_header_text"
+        android:textSize="@dimen/nav_view_header_text"
         android:textColor="@color/white_69"/>
 
 </LinearLayout>

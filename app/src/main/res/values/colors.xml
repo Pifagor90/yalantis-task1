@@ -14,4 +14,6 @@
 
     <color name="black_87">#77000000</color>
     <color name="white_69">#b0ffffff</color>
+    <color name="fab_tint">#ff9c26</color>
+    <color name="separator">#c3909090</color>
 </resources>

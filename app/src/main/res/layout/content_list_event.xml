@@ -28,30 +28,27 @@
         android:orientation="vertical">
 
         <android.support.design.widget.TabLayout
-            android:layout_height="wrap_content"
+            android:id="@+id/list_event_TabLayout"
             android:layout_width="match_parent"
-            android:paddingTop="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
-            app:tabSelectedTextColor="@android:color/white"
-            app:tabIndicatorColor="@android:color/white"
-            app:tabTextAppearance="@style/AppTabTextAppearance"
             android:paddingLeft="@dimen/min_padding"
             android:paddingRight="@dimen/min_padding"
-            android:id="@+id/list_event_TabLayout">
+            android:paddingTop="?attr/actionBarSize"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextAppearance="@style/AppTabTextAppearance">
 
             <android.support.design.widget.TabItem
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
+                style="@style/list_view_event_tab_item"
                 android:text="@string/event_state_in_progress"/>
 
             <android.support.design.widget.TabItem
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
+                style="@style/list_view_event_tab_item"
                 android:text="@string/event_state_done"/>
 
             <android.support.design.widget.TabItem
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
+                style="@style/list_view_event_tab_item"
                 android:text="@string/event_state_waiting"/>
 
         </android.support.design.widget.TabLayout>
@@ -64,16 +61,14 @@
     </LinearLayout>
 
 
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="#f7980a"
-        app:fabSize="mini"
-        android:tint="@color/id_button_text_color"  />
+        android:src="@drawable/fab_modified"
+        android:tint="@color/id_button_text_color"
+        app:backgroundTint="@color/fab_tint"/>
 
 </android.support.design.widget.CoordinatorLayout>

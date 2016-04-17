@@ -6,11 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import java.util.ArrayList;
 
 import ua.dp.strahovik.yalantistask1.ListEventFragment;
 import ua.dp.strahovik.yalantistask1.R;
-import ua.dp.strahovik.yalantistask1.entities.Event;
 import ua.dp.strahovik.yalantistask1.services.EventDao;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {

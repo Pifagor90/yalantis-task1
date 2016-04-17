@@ -72,14 +72,14 @@ public class ListEventRecyclerViewAdapter extends RecyclerView.Adapter<ListEvent
     public void onBindViewHolder(ListEventRecyclerViewAdapter.ViewHolder holder, int position) {
         final Event event = mEventList.get(position);
         holder.mEventTypeImageView.setImageDrawable(mEventTypeConformityMap.get(event.getEventType()));
-        holder.mEventLikeCount.setText(""+ event.getLikeCounter());
+        holder.mEventLikeCount.setText("" + event.getLikeCounter());
         holder.mEventType.setText(event.getEventType());
         holder.mEventAddress.setText(event.getAddress());
         holder.mEventDate.setText(mSimpleDateFormat.format(event.getCreationDate()));
         long weirdDaysCounter = TimeUtil.getDateDiff(event.getCreationDate(),event.getDeadlineDate(),
                 TimeUnit.DAYS);
-        holder.mEventWeirdDaysCounter.setText(Long.toString(weirdDaysCounter) + " " +
-                mContext.getString(R.string.days));
+        holder.mEventWeirdDaysCounter.setText(mContext.getResources().getQuantityString(
+                R.plurals.weirdDaysCounter,(int) weirdDaysCounter, (int) weirdDaysCounter));
         holder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

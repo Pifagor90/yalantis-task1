@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">YalantisTask1</string>
     <string name="action_settings" translatable="false">Settings</string>
-    <string name="main_activity_municipal_services">Municipal services</string>
     <string name="main_activity_created">Created</string>
     <string name="main_activity_registred">Registred</string>
     <string name="main_activity_finish_up_to">Finish up to</string>
@@ -13,7 +12,6 @@
     <string name="main_activity_simple_date_format" translatable="false">d MMMM yyyy</string>
     <string name="list_event_activity_simple_date_format" translatable="false">MMM d, yyyy</string>
     <string name="toast_state_button">Button state was pressed</string>
-    <string name="main_activity_event_state_illega_arg_exception">Event state cant be anything except \"In progress\"</string>
     <string name="toast_image_part_1">ImageView #</string>
     <string name="toast_image_part_2"> was pressed</string>
 
@@ -29,9 +27,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="navigation_drawer_footer_links"><a href="http://www.cleverfinger.com.au/user-guide/" target="_top">It Ruh Dnipro</a> and <a href="http://www.yalantis.com" target="_top">Yalantis</a></string>
+    <string name="navigation_drawer_footer_links"><a href="http://www.itruh.dp.ua/" target="_top">It Ruh Dnipro</a> and <a href="http://www.yalantis.com" target="_top">Yalantis</a></string>
 
-    <string name="days"> days</string>
     <string name="navigation_drawer_footer_text">Made with love</string>
     <string name="navigation_drawer_list_event_all_requests">All requests</string>
     <string name="navigation_drawer_list_event_requests_at_map">Requests at map</string>
@@ -47,18 +44,24 @@
 
     <string-array name="EventStreet_array">
         <item>Weird str.</item>
-        <item>Very very very vrey long street name str.</item>
+        <item>Very very very very long street name str.</item>
         <item>Short street str.</item>
     </string-array>
 
     <string-array name="EventState_array">
         <item>In progress</item>
         <item>Done</item>
-        <item>Waiting</item>
+        <item>Not done</item>
     </string-array>
 
     <string name="event_state_in_progress">In progress</string>
     <string name="event_state_done">Done</string>
-    <string name="event_state_waiting">Waiting</string>
+    <string name="event_state_waiting">Not done</string>
+    <string name="nav_view_header_text">e-contact</string>
+
+    <plurals name="weirdDaysCounter">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
 
 </resources>

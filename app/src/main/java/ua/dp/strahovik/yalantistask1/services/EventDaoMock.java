@@ -7,6 +7,7 @@ package ua.dp.strahovik.yalantistask1.services;
 
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.net.URI;
@@ -16,20 +17,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import ua.dp.strahovik.yalantistask1.R;
 import ua.dp.strahovik.yalantistask1.entities.Event;
 
 public class EventDaoMock implements EventDao {
-/*   Todo: if its consuming too much resources rework everything to return j.u.c.Future or through
+/*
+    Todo: if its consuming too much resources rework everything to return j.u.c.Future or through
     asyncTask or through mainThread --> service --> contentProvider
  */
 
-    private static Map<String,List<Event>> sCache = new HashMap<>(3);
+    private static Map<String, List<Event>> sCache = new HashMap<>(3);
     private Context mContext;
     private CompanyDaoMock mCompanyDaoMock = new CompanyDaoMock();
 
@@ -37,6 +36,9 @@ public class EventDaoMock implements EventDao {
     private final String[] mEventType;
     private final String[] mStreets;
     private final String[] mEventState;
+    private final int mNumberOfEventsToBeGenerated;
+    private final int mRandomCoefficient;
+    private final int lengthOfGeneratedIdFromEventStateToSubstring;
 
 
     public EventDaoMock(Context context) {
@@ -45,9 +47,13 @@ public class EventDaoMock implements EventDao {
         mStreets = mContext.getResources().getStringArray(R.array.EventStreet_array);
         mEventType = mContext.getResources().getStringArray(R.array.EventType_array);
         mEventState = mContext.getResources().getStringArray(R.array.EventState_array);
+        mNumberOfEventsToBeGenerated = mContext.getResources().getInteger(R.integer.numberOfEventsToBeGenerated);
+        mRandomCoefficient = mContext.getResources().getInteger(R.integer.randomCoefficient);
+        lengthOfGeneratedIdFromEventStateToSubstring = mContext.getResources().getInteger(R.integer.
+                lengthOfGeneratedIdFromEventStateToSubstring);
     }
 
-    private Event eventFactory (String id, double random){
+    private Event eventFactory(String id, double random) {
         Event event = new Event();
         event.setId(id);
         event.setCreationDate(new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(5)));
@@ -62,20 +68,20 @@ public class EventDaoMock implements EventDao {
             for (String element : mUriAsString) {
                 list.add(new URI(element));
             }
-        }  catch (URISyntaxException e) {
-            Log.e(mContext.getString(R.string.Log_tag),mContext.getString(R.string.EventDaoMock_URI_exception) + e);
+        } catch (URISyntaxException e) {
+            Log.e(mContext.getString(R.string.Log_tag), mContext.getString(R.string.EventDaoMock_URI_exception) + e);
         }
 
         event.setPhotos(list);
 
-        event.setLikeCounter((int) (random * 10));
-        event.setAddress((int) (random * 10) + " " + mStreets[(int) (mStreets.length * random)]);
+        event.setLikeCounter((int) (random * mRandomCoefficient));
+        event.setAddress((int) (random * mRandomCoefficient) + " " + mStreets[(int) (mStreets.length * random)]);
         event.setEventType(mEventType[(int) (mEventType.length * random)]);
 
         return event;
     }
 
-    private Event eventFactory (String id, double random, String eventState){
+    private Event eventFactory(String id, double random, String eventState) {
         Event event = eventFactory(id, random);
         event.setEventState(eventState);
         return event;
@@ -84,11 +90,11 @@ public class EventDaoMock implements EventDao {
     @Override
     public Event getEventById(String id) {
         if (sCache.isEmpty()) {
-            return  eventFactory(id, Math.random());
+            return eventFactory(id, Math.random());
         } else {
             for (Map.Entry<String, List<Event>> entry : sCache.entrySet()) {
-                for (Event event: entry.getValue()) {
-                    if(event.getId().equals(id)){
+                for (Event event : entry.getValue()) {
+                    if (event.getId().equals(id)) {
                         return event;
                     }
                 }
@@ -99,9 +105,20 @@ public class EventDaoMock implements EventDao {
 
     @Override
     public List<Event> getListEventByEventState(String eventState) {
+        List<Event> list;
+        if (sCache.isEmpty() || !sCache.containsKey(eventState)) {
+            list = generateEventList(eventState);
+        } else {
+            list = sCache.get(eventState);
+        }
+        return list;
+    }
+
+    @NonNull
+    private List<Event> generateEventList(String eventState) {
         List<Event> list = new ArrayList<Event>();
-        final String startId = eventState.substring(0, 3) + "-";
-        for (int counter = 0; counter < 10; counter++) {
+        final String startId = eventState.substring(0, lengthOfGeneratedIdFromEventStateToSubstring) + "-";
+        for (int counter = 0; counter < mNumberOfEventsToBeGenerated; counter++) {
             list.add(eventFactory(startId + counter, Math.random(), eventState));
         }
         sCache.put(eventState, list);

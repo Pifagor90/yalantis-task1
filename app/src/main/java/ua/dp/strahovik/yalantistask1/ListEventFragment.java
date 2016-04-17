@@ -10,15 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import ua.dp.strahovik.yalantistask1.adapters.ListEventListViewAdapter;
 import ua.dp.strahovik.yalantistask1.adapters.ListEventRecyclerViewAdapter;
-import ua.dp.strahovik.yalantistask1.decorators.ImageRecyclerDecorator;
 import ua.dp.strahovik.yalantistask1.decorators.ListEventRecyclerDecorator;
 import ua.dp.strahovik.yalantistask1.entities.Event;
 
@@ -42,14 +39,14 @@ public class ListEventFragment extends Fragment {
                              Bundle savedInstanceState) {
         mContext = container.getContext();
         View view;
-        if (isRecyclerViewBased){
+        if (isRecyclerViewBased) {
             view = inflater.inflate(R.layout.fragment_list_event_recycler, container, false);
             initRecycleView(view);
         } else {
             view = inflater.inflate(R.layout.fragment_list_event_listview, container, false);
             initListView(view);
         }
-        
+
         return view;
     }
 
@@ -58,7 +55,7 @@ public class ListEventFragment extends Fragment {
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (scrollState == SCROLL_STATE_IDLE){
+                if (scrollState == SCROLL_STATE_IDLE) {
                     mFloatingActionButton.show();
                 } else {
                     mFloatingActionButton.hide();
@@ -82,7 +79,7 @@ public class ListEventFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     mFloatingActionButton.show();
                 } else {
                     mFloatingActionButton.hide();
@@ -98,12 +95,6 @@ public class ListEventFragment extends Fragment {
     }
 
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-
     public void setEventList(List<Event> eventList) {
         mEventList = eventList;
     }
@@ -113,7 +104,14 @@ public class ListEventFragment extends Fragment {
         this.isRecyclerViewBased = isRecyclerViewBased;
     }
 
+
     public void setFloatingActionButton(FloatingActionButton floatingActionButton) {
         mFloatingActionButton = floatingActionButton;
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 }

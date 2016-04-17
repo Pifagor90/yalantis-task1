@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/item_list_event_LinearLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:background="@drawable/item_list_event"
-    android:id="@+id/item_list_event_LinearLayout">
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="80dp"
-        android:layout_height="126dp"
+        android:layout_width="@dimen/item_list_event_left_width"
+        android:layout_height="@dimen/item_list_event_height"
         android:orientation="vertical"
-        android:paddingBottom="16.6dp"
-        android:paddingTop="16dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:paddingBottom="@dimen/item_list_event_left_padding_Bottom"
+        android:paddingLeft="@dimen/item_list_event_left_padding"
+        android:paddingRight="@dimen/item_list_event_left_padding"
+        android:paddingTop="@dimen/item_list_event_left_paddingTop">
+
         <ImageView
             android:id="@+id/item_list_event_image_view_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|center_horizontal"/>
+
         <TextView
             android:id="@+id/empty_spacer"
             android:layout_width="match_parent"
@@ -27,82 +29,79 @@
             android:layout_weight="1"
             android:clickable="false"
             android:text=""/>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:layout_gravity="bottom">
+            android:layout_gravity="bottom"
+            android:gravity="bottom">
+
             <ImageView
                 android:id="@+id/image_view_fb_thumbs_up"
-                android:layout_width="18dp"
-                android:layout_height="16.5dp"
-                android:src="@drawable/thumb_up"
+                android:layout_width="@dimen/fb_thumbs_up_width"
+                android:layout_height="@dimen/fb_thumbs_up_height"
+                android:layout_gravity="bottom"
                 android:gravity="bottom"
-                android:layout_gravity="bottom" />
+                android:src="@drawable/thumb_up"/>
+
             <TextView
+                android:id="@+id/item_list_event_fb_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:id="@+id/item_list_event_fb_counter"
-                android:paddingLeft="8dp"
+                android:layout_gravity="bottom"
                 android:gravity="bottom"
-                android:layout_gravity="bottom"/>
+                android:paddingLeft="@dimen/min_padding"
+                android:textSize="@dimen/text_size"/>
         </LinearLayout>
 
     </LinearLayout>
+
     <include layout="@layout/separator_vertical"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="126dp"
+        android:layout_height="@dimen/item_list_event_height"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
 
         <TextView
+            android:id="@+id/item_list_event_text_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/item_list_event_text_type"
-            android:textSize="16sp"
-            android:textColor="@color/content_main_input_TextColor"
-            android:layout_weight="1"
-            android:gravity="top"
             android:layout_gravity="top"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="top"
             android:maxLines="2"
-            android:ellipsize="end"/>
+            android:textColor="@color/content_main_input_TextColor"
+            android:textSize="@dimen/item_list_event_text_type"/>
 
         <TextView
+            android:id="@+id/item_list_event_text_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/item_list_event_text_address"
-            android:textSize="14sp"
-            android:textColor="@color/black_87"
-            android:maxLines="1"
+            android:layout_weight="1"
             android:ellipsize="end"
-            android:layout_weight="1"/>
+            android:maxLines="1"
+            android:textColor="@color/black_87"
+            android:textSize="@dimen/text_size"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/item_list_event_text_date"
-                android:textSize="14sp"
-                android:textColor="@color/black_87"
-                android:textStyle="bold"
+                style="@style/item_list_event_data"
                 android:layout_weight="0.8"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/item_list_event_text_weird_data"
-                android:textSize="14sp"
-                android:textColor="@color/black_87"
-                android:textStyle="bold"
+                style="@style/item_list_event_data"
                 android:layout_weight="0.2"
                 android:gravity="right"
-                android:paddingRight="8dp"/>
+                android:paddingRight="@dimen/min_padding"/>
 
         </LinearLayout>
     </LinearLayout>

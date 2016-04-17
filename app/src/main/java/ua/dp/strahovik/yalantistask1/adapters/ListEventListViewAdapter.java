@@ -4,7 +4,6 @@ package ua.dp.strahovik.yalantistask1.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -73,14 +71,14 @@ public class ListEventListViewAdapter extends BaseAdapter {
 
 
         eventTypeImageView.setImageDrawable(mEventTypeConformityMap.get(event.getEventType()));
-        eventLikeCount.setText(""+ event.getLikeCounter());
+        eventLikeCount.setText("" + event.getLikeCounter());
         eventType.setText(event.getEventType());
         eventAddress.setText(event.getAddress());
         eventDate.setText(mSimpleDateFormat.format(event.getCreationDate()));
         long weirdDaysCounter = TimeUtil.getDateDiff(event.getCreationDate(), event.getDeadlineDate(),
                 TimeUnit.DAYS);
-        eventWeirdDaysCounter.setText(Long.toString(weirdDaysCounter) + " " +
-                mContext.getString(R.string.days));
+        eventWeirdDaysCounter.setText(mContext.getResources().getQuantityString(
+                R.plurals.weirdDaysCounter,(int)weirdDaysCounter, (int) weirdDaysCounter));
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

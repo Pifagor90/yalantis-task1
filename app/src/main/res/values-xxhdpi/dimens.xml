@@ -12,7 +12,7 @@
     <dimen name="content_main_row_paddingTop">10dp</dimen>
     <dimen name="content_main_row_paddingBottom">10dp</dimen>
 
-    <dimen name="min_padding">6dp</dimen>
+    <dimen name="min_padding">8dp</dimen>
 
     <dimen name="separator_height">1.5dip</dimen>
 

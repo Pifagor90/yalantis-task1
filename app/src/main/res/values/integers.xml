@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="niceRotationCoefficient">360</integer>
+    <integer name="numberOfEventsToBeGenerated">10</integer>
+    <integer name="randomCoefficient">10</integer>
+    <integer name="lengthOfGeneratedIdFromEventStateToSubstring">3</integer>
+
 </resources>

@@ -4,7 +4,7 @@
                 android:id="@+id/separator"
                 android:layout_width="@dimen/separator_height"
                 android:layout_height="fill_parent"
-                android:background="#c3909090"
+                android:background="@color/separator"
                 android:clickable="false"
                 tools:showIn="@layout/content_single_event_info">
 
