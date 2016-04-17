@@ -6,6 +6,8 @@ Copyright info
 package ua.dp.strahovik.yalantistask1.entities;
 
 
+import java.io.Serializable;
+
 public class Company {
 
     private String mName;

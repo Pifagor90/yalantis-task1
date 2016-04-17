@@ -12,37 +12,54 @@ import android.util.Log;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import ua.dp.strahovik.yalantistask1.R;
 import ua.dp.strahovik.yalantistask1.entities.Event;
 
 public class EventDaoMock implements EventDao {
+/*   Todo: if its consuming too much resources rework everything to return j.u.c.Future or through
+    asyncTask or through mainThread --> service --> contentProvider
+ */
 
+    private static Map<String,List<Event>> sCache = new HashMap<>(3);
     private Context mContext;
     private CompanyDaoMock mCompanyDaoMock = new CompanyDaoMock();
 
+    private final String[] mUriAsString;
+    private final String[] mEventType;
+    private final String[] mStreets;
+    private final String[] mEventState;
+
+
     public EventDaoMock(Context context) {
         mContext = context;
+        mUriAsString = mContext.getResources().getStringArray(R.array.EventDaoMock_URI_array);
+        mStreets = mContext.getResources().getStringArray(R.array.EventStreet_array);
+        mEventType = mContext.getResources().getStringArray(R.array.EventType_array);
+        mEventState = mContext.getResources().getStringArray(R.array.EventState_array);
     }
 
-    private Event eventFactory (String id){
+    private Event eventFactory (String id, double random){
         Event event = new Event();
         event.setId(id);
-        final int dayInMillis = 1000 * 60 * 60 * 24; //Not sure if this has to be transferred to R.integers
-        event.setCreationDate(new Date(System.currentTimeMillis() - (5 * dayInMillis)));
-        event.setDeadlineDate(new Date(System.currentTimeMillis() - (1 * dayInMillis)));
-        event.setRegistrationDate(new Date(System.currentTimeMillis() - (4 * dayInMillis)));
+        event.setCreationDate(new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(5)));
+        event.setDeadlineDate(new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1)));
+        event.setRegistrationDate(new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(4)));
         event.setDescription(mContext.getString(R.string.EventDaoMock_description));
         event.setResponsible(mCompanyDaoMock.getCompanyByName(mContext.getString(R.string.EventDaoMock_company_name)));
-        event.setEventState(mContext.getString(R.string.main_activity_button_in_progress));
+        event.setEventState(mEventState[(int) (mEventState.length * random)]);
 
         List<URI> list = new ArrayList<URI>();
         try {
-            String[] uriAsString = mContext.getResources().getStringArray(R.array.EventDaoMock_URI_array);
-            for (String element : uriAsString) {
+            for (String element : mUriAsString) {
                 list.add(new URI(element));
             }
         }  catch (URISyntaxException e) {
@@ -51,11 +68,43 @@ public class EventDaoMock implements EventDao {
 
         event.setPhotos(list);
 
+        event.setLikeCounter((int) (random * 10));
+        event.setAddress((int) (random * 10) + " " + mStreets[(int) (mStreets.length * random)]);
+        event.setEventType(mEventType[(int) (mEventType.length * random)]);
+
+        return event;
+    }
+
+    private Event eventFactory (String id, double random, String eventState){
+        Event event = eventFactory(id, random);
+        event.setEventState(eventState);
         return event;
     }
 
     @Override
     public Event getEventById(String id) {
-        return eventFactory(id);
+        if (sCache.isEmpty()) {
+            return  eventFactory(id, Math.random());
+        } else {
+            for (Map.Entry<String, List<Event>> entry : sCache.entrySet()) {
+                for (Event event: entry.getValue()) {
+                    if(event.getId().equals(id)){
+                        return event;
+                    }
+                }
+            }
+        }
+        return eventFactory(id, Math.random());
+    }
+
+    @Override
+    public List<Event> getListEventByEventState(String eventState) {
+        List<Event> list = new ArrayList<Event>();
+        final String startId = eventState.substring(0, 3) + "-";
+        for (int counter = 0; counter < 10; counter++) {
+            list.add(eventFactory(startId + counter, Math.random(), eventState));
+        }
+        sCache.put(eventState, list);
+        return list;
     }
 }

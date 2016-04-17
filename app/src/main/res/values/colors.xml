@@ -9,5 +9,9 @@
     <color name="id_button_text_color">#ffffff</color>
     <color name="AppBar">#4a76a9</color>
     <color name="StatusBar">#355376</color>
+    <color name="AppTabTextColor">#aaffffff</color>
+    <color name="list_events_footer_gradient">#45b3c3</color>
 
+    <color name="black_87">#77000000</color>
+    <color name="white_69">#b0ffffff</color>
 </resources>

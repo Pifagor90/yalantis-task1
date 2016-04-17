@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/separator"
+                android:layout_width="@dimen/separator_height"
+                android:layout_height="fill_parent"
+                android:background="#c3909090"
+                android:clickable="false"
+                tools:showIn="@layout/content_single_event_info">
+
+
+</RelativeLayout>

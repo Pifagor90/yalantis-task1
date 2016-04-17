@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/navigation_drawer_menu"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_drawer_list_event_all_requests"
+            android:icon="@drawable/ic_issues_modified_asset"
+            android:title="@string/navigation_drawer_list_event_all_requests"/>
+        <item
+            android:id="@+id/navigation_drawer_list_event_requests_at_map"
+            android:icon="@drawable/ic_map_modified_asset"
+            android:title="@string/navigation_drawer_list_event_requests_at_map"/>
+    </group>
+
+    <group
+        android:id="@+id/navigation_drawer_list_event_enter_account">
+        <item
+            android:title="@string/navigation_drawer_list_event_enter_account"/>
+    </group>
+</menu>

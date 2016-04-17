@@ -5,6 +5,7 @@ Copyright info
 
 package ua.dp.strahovik.yalantistask1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,8 +25,8 @@ import ua.dp.strahovik.yalantistask1.services.EventDao;
 import ua.dp.strahovik.yalantistask1.services.EventDaoMock;
 import ua.dp.strahovik.yalantistask1.entities.Event;
 
-public class MainActivity extends AppCompatActivity {
-    private EventDao mEventDao = new EventDaoMock(this);
+public class SingleEventInfoActivity extends AppCompatActivity {
+    private EventDao mEventDao;
     private Event mEvent;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -39,17 +40,18 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private ActionBar mActionBar;
-
-    private final String mInitialId = "CET-23475287";
+    private TextView mEventTypeTextView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_single_event_info);
 
         /*Retrieving data from services*/
-        mEvent = mEventDao.getEventById(mInitialId);
+        mEventDao = new EventDaoMock(this);
+        Intent intent = getIntent();
+        mEvent = mEventDao.getEventById(intent.getStringExtra("Event id"));
         /*End of retrieving data*/
 
         initWidgets();
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
+        mEventTypeTextView = (TextView) findViewById(R.id.single_event_info_event_type);
         mEventStateButton = (Button) findViewById(R.id.button_state);
         mCreationDateTextView = (TextView) findViewById(R.id.created_date);
         mRegistrationDateTextView = (TextView) findViewById(R.id.registred_date);
@@ -91,14 +94,9 @@ public class MainActivity extends AppCompatActivity {
             mActionBar.setHomeButtonEnabled(true);
             mActionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        if (mEvent.getEventState().equals(getString(R.string.main_activity_button_in_progress))) {
-            mEventStateButton.setText(R.string.main_activity_button_in_progress);
-        } else {
-            throw new IllegalArgumentException(getString(R.string.main_activity_event_state_illega_arg_exception));
-        }
-
-        mActionBar.setTitle(mInitialId);
+        mEventStateButton.setText(mEvent.getEventState());
+        mActionBar.setTitle(mEvent.getId());
+        mEventTypeTextView.setText(mEvent.getEventType());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.main_activity_simple_date_format));
         mCreationDateTextView.setText(simpleDateFormat.format(mEvent.getCreationDate()));
         mRegistrationDateTextView.setText(simpleDateFormat.format(mEvent.getRegistrationDate()));
@@ -119,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         mEventStateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, R.string.toast_state_button, Toast.LENGTH_LONG).show();
+                Toast.makeText(SingleEventInfoActivity.this, R.string.toast_state_button, Toast.LENGTH_LONG).show();
             }
         });
 

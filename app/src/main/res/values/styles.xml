@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/AppBar</item>
         <item name="colorPrimaryDark">@color/StatusBar</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -16,6 +17,10 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_filter_menu</item>
+    </style>
 
     <style name="content_main_row" parent="width_match_height_wrap">
         <item name="android:paddingTop">@dimen/content_main_row_paddingTop</item>
@@ -49,5 +54,9 @@
         <item name="android:layout_alignParentRight">true</item>
     </style>
 
+
+    <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/AppTabTextColor</item>
+    </style>
 
 </resources>

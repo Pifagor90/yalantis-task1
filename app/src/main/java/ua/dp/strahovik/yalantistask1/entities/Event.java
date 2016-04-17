@@ -6,6 +6,10 @@ Copyright info
 package ua.dp.strahovik.yalantistask1.entities;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.net.URI;
 import java.net.URL;
 import java.util.Date;
@@ -21,6 +25,10 @@ public class Event {
     private Company mResponsible;
     private String mDescription;
     private List<URI> mPhotos;
+
+    private String mEventType;
+    private int mLikeCounter;
+    private String mAddress;
 
     public String getId() {
         return mId;
@@ -86,4 +94,45 @@ public class Event {
         mEventState = eventState;
     }
 
+
+    public String getEventType() {
+        return mEventType;
+    }
+
+    public void setEventType(String eventType) {
+        mEventType = eventType;
+    }
+
+    public int getLikeCounter() {
+        return mLikeCounter;
+    }
+
+    public void setLikeCounter(int likeCounter) {
+        mLikeCounter = likeCounter;
+    }
+
+    public String getAddress() {
+        return mAddress;
+    }
+
+    public void setAddress(String address) {
+        mAddress = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "mId='" + mId + '\'' +
+                ", mEventState='" + mEventState + '\'' +
+                ", mCreationDate=" + mCreationDate +
+                ", mRegistrationDate=" + mRegistrationDate +
+                ", mDeadlineDate=" + mDeadlineDate +
+                ", mResponsible=" + mResponsible +
+                ", mDescription='" + mDescription + '\'' +
+                ", mPhotos=" + mPhotos +
+                ", mEventType='" + mEventType + '\'' +
+                ", mLikeCounter=" + mLikeCounter +
+                ", mAddress='" + mAddress + '\'' +
+                '}';
+    }
 }

@@ -5,7 +5,7 @@
     <string name="main_activity_registred">Зареєстровано</string>
     <string name="main_activity_responsible">Відповідальний</string>
     <string name="main_activity_finish_up_to">Вирішити до</string>
-    <string name="main_activity_button_in_progress">В роботі</string>
+    <string name="event_state_in_progress">В роботі</string>
     <string name="main_activity_municipal_services">Комунальне господарство</string>
     <string name="EventDaoMock_company_name">Днепр МВК</string>
     <string name="toast_state_button">Button state was pressed</string>
@@ -14,4 +14,13 @@
     <string name="EventDaoMock_URI_exception">програміст ввів невірний uri в EventDaoMock</string>
     <string name="toast_image_part_2"> була натиснута</string>
     <string name="EventDaoMock_description">Але щоб ви зрозуміли, звідки виникає це хибне уявлення людей, цуратись насолоди і вихваляти страждання, я розкрию перед вами всю картину і роз’ясню, що саме говорив цей чоловік, який відкрив істину, якого я б назвав зодчим щасливого життя.</string>
+    <string name="title_activity_list_event">Всі звернення</string>
+    <string name="days"> днів</string>
+
+
+    <string-array name="EventType_array">
+        <item>Комунальне господарство</item>
+        <item>Прибирання та санітарний стан територій</item>
+        <item>Питанння стосовно нарахування боргу електроенергії</item>
+    </string-array>
 </resources>
