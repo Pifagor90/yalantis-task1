@@ -27,6 +27,51 @@ import ua.dp.strahovik.yalantistask1.services.EventDao;
 import ua.dp.strahovik.yalantistask1.services.EventDaoMock;
 import ua.dp.strahovik.yalantistask1.util.ToolbarNavigationUtil;
 
+// Why your .png files are out of the ‘res’ folder? 
+
+
+// ImageAdapter (61) - You should not implement OnClickListener in adapter
+
+
+// ListEventListViewAdapter - Why don’t you use view holder?
+// ListEventListViewAdapter (82) - You should not implement OnClickListener in adapter
+// ListEventListViewAdapter (82) - You should not start activities in adapter
+
+
+// ListEventRecyclerViewAdapter (83) - You should not implement OnClickListener in adapter
+// ListEventRecyclerViewAdapter (83) - You should not start activities in adapter
+
+
+// Company (13) - wrong fields naming
+
+
+// Event (20) - wrong fields naming
+
+
+// ListEventActivity (34) - useless field
+// ListEventActivity (75) - Why did you set empty listener?
+// ListEventActivity (160) - some of your comments are obvious
+
+
+// ListEventFragment (26) - Some fields should be local
+// ListEventFragment (103) - You should pass the necessary arguments in newInstance() method
+// ListEventActivity (114) - empty method
+// SingleEventInfoActivity (29) - some fields should be local
+// SingleEventInfoActivity (51) - you should not access data in onCreate() method
+
+
+// Your activities and fragments should be placed into view.activity and view.fragment packages 
+// Wrong resources naming (pizza.png, municipal_service.png, thumb_up.png …)
+
+
+// content_single_event_info.xml (20) - should be wrap_content
+// separator_horizontal.xml - why relative layout? You can use just view
+// separator_vertical.xml - why relative layout? You can use just view
+
+
+// Wrong values naming
+// https://github.com/ribot/android-guidelines/blob/master/project_and_code_guidelines.md
+
 public class ListEventActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
