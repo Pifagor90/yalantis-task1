@@ -9,130 +9,182 @@ package ua.dp.strahovik.yalantistask1.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.net.URI;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Event {
+public class Event implements Parcelable {
 
-    private String mId;
-    private String mEventState;
-    private Date mCreationDate;
-    private Date mRegistrationDate;
-    private Date mDeadlineDate;
-    private Company mResponsible;
-    private String mDescription;
-    private List<URI> mPhotos;
+    private String id;
+    private String eventState;
+    private Date creationDate;
+    private Date registrationDate;
+    private Date deadlineDate;
+    private Company responsible;
+    private String description;
+    private List<URI> photos;
 
-    private String mEventType;
-    private int mLikeCounter;
-    private String mAddress;
+    private String eventType;
+    private int likeCounter;
+    private String address;
 
     public String getId() {
-        return mId;
+        return id;
     }
 
     public void setId(String id) {
-        mId = id;
+        this.id = id;
     }
 
     public Date getCreationDate() {
-        return mCreationDate;
+        return creationDate;
     }
 
     public void setCreationDate(Date creationDate) {
-        mCreationDate = creationDate;
+        this.creationDate = creationDate;
     }
 
     public Date getRegistrationDate() {
-        return mRegistrationDate;
+        return registrationDate;
     }
 
     public void setRegistrationDate(Date registrationDate) {
-        mRegistrationDate = registrationDate;
+        this.registrationDate = registrationDate;
     }
 
     public Date getDeadlineDate() {
-        return mDeadlineDate;
+        return deadlineDate;
     }
 
     public void setDeadlineDate(Date deadlineDate) {
-        mDeadlineDate = deadlineDate;
+        this.deadlineDate = deadlineDate;
     }
 
     public Company getResponsible() {
-        return mResponsible;
+        return responsible;
     }
 
     public void setResponsible(Company responsible) {
-        mResponsible = responsible;
+        this.responsible = responsible;
     }
 
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     public void setDescription(String description) {
-        mDescription = description;
+        this.description = description;
     }
 
     public List<URI> getPhotos() {
-        return mPhotos;
+        return photos;
     }
 
     public void setPhotos(List<URI> photos) {
-        mPhotos = photos;
+        this.photos = photos;
     }
 
     public String getEventState() {
-        return mEventState;
+        return eventState;
     }
 
     public void setEventState(String eventState) {
-        mEventState = eventState;
+        this.eventState = eventState;
     }
 
 
     public String getEventType() {
-        return mEventType;
+        return eventType;
     }
 
     public void setEventType(String eventType) {
-        mEventType = eventType;
+        this.eventType = eventType;
     }
 
     public int getLikeCounter() {
-        return mLikeCounter;
+        return likeCounter;
     }
 
     public void setLikeCounter(int likeCounter) {
-        mLikeCounter = likeCounter;
+        this.likeCounter = likeCounter;
     }
 
     public String getAddress() {
-        return mAddress;
+        return address;
     }
 
     public void setAddress(String address) {
-        mAddress = address;
+        this.address = address;
     }
 
     @Override
     public String toString() {
         return "Event{" +
-                "mId='" + mId + '\'' +
-                ", mEventState='" + mEventState + '\'' +
-                ", mCreationDate=" + mCreationDate +
-                ", mRegistrationDate=" + mRegistrationDate +
-                ", mDeadlineDate=" + mDeadlineDate +
-                ", mResponsible=" + mResponsible +
-                ", mDescription='" + mDescription + '\'' +
-                ", mPhotos=" + mPhotos +
-                ", mEventType='" + mEventType + '\'' +
-                ", mLikeCounter=" + mLikeCounter +
-                ", mAddress='" + mAddress + '\'' +
+                "id='" + id + '\'' +
+                ", eventState='" + eventState + '\'' +
+                ", creationDate=" + creationDate +
+                ", registrationDate=" + registrationDate +
+                ", deadlineDate=" + deadlineDate +
+                ", responsible=" + responsible +
+                ", description='" + description + '\'' +
+                ", photos=" + photos +
+                ", eventType='" + eventType + '\'' +
+                ", likeCounter=" + likeCounter +
+                ", address='" + address + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.eventState);
+        dest.writeLong(creationDate != null ? creationDate.getTime() : -1);
+        dest.writeLong(registrationDate != null ? registrationDate.getTime() : -1);
+        dest.writeLong(deadlineDate != null ? deadlineDate.getTime() : -1);
+        dest.writeParcelable(this.responsible, flags);
+        dest.writeString(this.description);
+        dest.writeList(this.photos);
+        dest.writeString(this.eventType);
+        dest.writeInt(this.likeCounter);
+        dest.writeString(this.address);
+    }
+
+    public Event() {
+    }
+
+    protected Event(Parcel in) {
+        this.id = in.readString();
+        this.eventState = in.readString();
+        long tmpCreationDate = in.readLong();
+        this.creationDate = tmpCreationDate == -1 ? null : new Date(tmpCreationDate);
+        long tmpRegistrationDate = in.readLong();
+        this.registrationDate = tmpRegistrationDate == -1 ? null : new Date(tmpRegistrationDate);
+        long tmpDeadlineDate = in.readLong();
+        this.deadlineDate = tmpDeadlineDate == -1 ? null : new Date(tmpDeadlineDate);
+        this.responsible = in.readParcelable(Company.class.getClassLoader());
+        this.description = in.readString();
+        this.photos = new ArrayList<URI>();
+        in.readList(this.photos, URI.class.getClassLoader());
+        this.eventType = in.readString();
+        this.likeCounter = in.readInt();
+        this.address = in.readString();
+    }
+
+    public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel source) {
+            return new Event(source);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
 }

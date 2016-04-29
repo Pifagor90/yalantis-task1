@@ -10,7 +10,7 @@
     tools:openDrawer="start">
 
     <include
-        layout="@layout/content_list_event"
+        layout="@layout/partial_list_event_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/navigation_view_header_list_event"
+        app:headerLayout="@layout/partial_list_event_nav_view_header"
         app:menu="@menu/activity_list_event_drawer">
 
         <LinearLayout
@@ -41,14 +41,14 @@
                 android:id="@+id/footer_item_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/navigation_drawer_footer_text"
+                android:text="@string/list_event_activity_navigation_drawer_footer_text"
                 android:textSize="@dimen/small_text_size"/>
 
             <TextView
                 android:id="@+id/NavigationView_footer_links"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/navigation_drawer_footer_links"
+                android:text="@string/list_event_activity_navigation_drawer_footer_links"
                 android:textColorLink="@android:color/holo_orange_dark"
                 android:textSize="@dimen/small_text_size"/>
         </LinearLayout>

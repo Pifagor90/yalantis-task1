@@ -6,17 +6,17 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/navigation_drawer_list_event_all_requests"
-            android:icon="@drawable/ic_issues_modified_asset"
-            android:title="@string/navigation_drawer_list_event_all_requests"/>
+            android:icon="@drawable/ic_menu_all_requests"
+            android:title="@string/list_event_activity_navigation_drawer_menu_all_requests"/>
         <item
             android:id="@+id/navigation_drawer_list_event_requests_at_map"
-            android:icon="@drawable/ic_map_modified_asset"
-            android:title="@string/navigation_drawer_list_event_requests_at_map"/>
+            android:icon="@drawable/ic_menu_map"
+            android:title="@string/list_event_activity_navigation_drawer_menu_requests_at_map"/>
     </group>
 
     <group
         android:id="@+id/navigation_drawer_list_event_enter_account">
         <item
-            android:title="@string/navigation_drawer_list_event_enter_account"/>
+            android:title="@string/list_event_activity_navigation_drawer_menu_enter_account"/>
     </group>
 </menu>

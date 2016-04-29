@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <array name="EventType_conforming_image_array">
-        <item>@drawable/municipal_service</item>
-        <item>@drawable/ic_trash</item>
-        <item>@drawable/pizza</item>
+    <array name="list_event_activity_event_type_conforming_image_icon">
+        <item>@drawable/ic_event_type_municipal_service</item>
+        <item>@drawable/ic_event_type_cleaning</item>
+        <item>@drawable/ic_event_type_electricity</item>
     </array>
 </resources>

@@ -1,6 +1,7 @@
-package ua.dp.strahovik.yalantistask1;
+package ua.dp.strahovik.yalantistask1.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -12,32 +13,45 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import java.util.Arrays;
 import java.util.List;
 
+import ua.dp.strahovik.yalantistask1.R;
 import ua.dp.strahovik.yalantistask1.adapters.ListEventListViewAdapter;
 import ua.dp.strahovik.yalantistask1.adapters.ListEventRecyclerViewAdapter;
+import ua.dp.strahovik.yalantistask1.listeners.OnEventClickListener;
 import ua.dp.strahovik.yalantistask1.decorators.ListEventRecyclerDecorator;
 import ua.dp.strahovik.yalantistask1.entities.Event;
+import ua.dp.strahovik.yalantistask1.view.activity.SingleEventInfoActivity;
 
+//  TODO RENAME names in bundle mb push  em to strings
 
-public class ListEventFragment extends Fragment {
+public class ListEventFragment extends Fragment implements OnEventClickListener {
 
     private List<Event> mEventList;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
     private Context mContext;
-    private boolean isRecyclerViewBased = true;
-    private ListView mListView;
     private FloatingActionButton mFloatingActionButton;
 
-    public ListEventFragment() {
-
+    public static ListEventFragment newInstance(List<Event> eventList, boolean isRecyclerViewBased) {
+        ListEventFragment listEventFragment = new ListEventFragment();
+        Bundle args = new Bundle();
+        args.putParcelableArray("Event arr", eventList.toArray(new Event[eventList.size()]));
+        args.putBoolean("isRecyclerViewBased", isRecyclerViewBased);
+        listEventFragment.setArguments(args);
+        return listEventFragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mContext = container.getContext();
+
+        Bundle arguments = getArguments();
+        Event[] events = (Event[]) arguments.getParcelableArray("Event arr");
+        mEventList = Arrays.asList(events != null ? events : new Event[0]);
+        boolean isRecyclerViewBased = arguments.getBoolean("isRecyclerViewBased", true);
+        mFloatingActionButton = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+
         View view;
         if (isRecyclerViewBased) {
             view = inflater.inflate(R.layout.fragment_list_event_recycler, container, false);
@@ -51,8 +65,8 @@ public class ListEventFragment extends Fragment {
     }
 
     private void initListView(View view) {
-        mListView = (ListView) view.findViewById(R.id.fragment_listView);
-        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        ListView listView = (ListView) view.findViewById(R.id.fragment_listView);
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (scrollState == SCROLL_STATE_IDLE) {
@@ -68,14 +82,15 @@ public class ListEventFragment extends Fragment {
             }
         });
         ListEventListViewAdapter listEventListViewAdapter = new ListEventListViewAdapter(mEventList, mContext);
-
-        mListView.setAdapter(listEventListViewAdapter);
+        listEventListViewAdapter.setOnEventClickListener(this);
+        listView.setAdapter(listEventListViewAdapter);
     }
 
-    private void initRecycleView(View view) {
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_recyclerView);
 
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+    private void initRecycleView(View view) {
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragment_recyclerView);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -86,32 +101,21 @@ public class ListEventFragment extends Fragment {
                 }
             }
         });
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(mContext,
+                LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
         ListEventRecyclerViewAdapter adapter = new ListEventRecyclerViewAdapter(mEventList, mContext);
-        mRecyclerView.addItemDecoration(new ListEventRecyclerDecorator(mContext));
-        mRecyclerView.setAdapter(adapter);
-    }
-
-
-    public void setEventList(List<Event> eventList) {
-        mEventList = eventList;
-    }
-
-
-    public void setIsRecyclerViewBased(boolean isRecyclerViewBased) {
-        this.isRecyclerViewBased = isRecyclerViewBased;
-    }
-
-
-    public void setFloatingActionButton(FloatingActionButton floatingActionButton) {
-        mFloatingActionButton = floatingActionButton;
+        adapter.setOnEventClickListener(this);
+        recyclerView.addItemDecoration(new ListEventRecyclerDecorator(mContext));
+        recyclerView.setAdapter(adapter);
     }
 
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onEventClick(Event event) {
+        Intent intent = new Intent(mContext, SingleEventInfoActivity.class);
+        intent.putExtra("Event id", event.getId());
+        mContext.startActivity(intent);
     }
 }

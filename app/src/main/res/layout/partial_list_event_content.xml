@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="ua.dp.strahovik.yalantistask1.ListEventActivity">
+    tools:context=".view.activity.ListEventActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -40,15 +40,15 @@
             app:tabTextAppearance="@style/AppTabTextAppearance">
 
             <android.support.design.widget.TabItem
-                style="@style/list_view_event_tab_item"
+                style="@style/ListEventActivityTabItem"
                 android:text="@string/event_state_in_progress"/>
 
             <android.support.design.widget.TabItem
-                style="@style/list_view_event_tab_item"
+                style="@style/ListEventActivityTabItem"
                 android:text="@string/event_state_done"/>
 
             <android.support.design.widget.TabItem
-                style="@style/list_view_event_tab_item"
+                style="@style/ListEventActivityTabItem"
                 android:text="@string/event_state_waiting"/>
 
         </android.support.design.widget.TabLayout>
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/fab_modified"
+        android:src="@drawable/btn_fab"
         android:tint="@color/id_button_text_color"
         app:backgroundTint="@color/fab_tint"/>
 

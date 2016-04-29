@@ -43,14 +43,14 @@ public class EventDaoMock implements EventDao {
 
     public EventDaoMock(Context context) {
         mContext = context;
-        mUriAsString = mContext.getResources().getStringArray(R.array.EventDaoMock_URI_array);
-        mStreets = mContext.getResources().getStringArray(R.array.EventStreet_array);
-        mEventType = mContext.getResources().getStringArray(R.array.EventType_array);
-        mEventState = mContext.getResources().getStringArray(R.array.EventState_array);
-        mNumberOfEventsToBeGenerated = mContext.getResources().getInteger(R.integer.numberOfEventsToBeGenerated);
-        mRandomCoefficient = mContext.getResources().getInteger(R.integer.randomCoefficient);
+        mUriAsString = mContext.getResources().getStringArray(R.array.data_generation_image_uris);
+        mStreets = mContext.getResources().getStringArray(R.array.data_generation_event_streets);
+        mEventType = mContext.getResources().getStringArray(R.array.event_types);
+        mEventState = mContext.getResources().getStringArray(R.array.event_states);
+        mNumberOfEventsToBeGenerated = mContext.getResources().getInteger(R.integer.data_generation_number_of_events_to_be_generated);
+        mRandomCoefficient = mContext.getResources().getInteger(R.integer.data_generation_random_coefficient);
         lengthOfGeneratedIdFromEventStateToSubstring = mContext.getResources().getInteger(R.integer.
-                lengthOfGeneratedIdFromEventStateToSubstring);
+                data_generation_length_of_generated_id_from_event_state_to_substring);
     }
 
     private Event eventFactory(String id, double random) {
@@ -59,8 +59,8 @@ public class EventDaoMock implements EventDao {
         event.setCreationDate(new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(5)));
         event.setDeadlineDate(new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1)));
         event.setRegistrationDate(new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(4)));
-        event.setDescription(mContext.getString(R.string.EventDaoMock_description));
-        event.setResponsible(mCompanyDaoMock.getCompanyByName(mContext.getString(R.string.EventDaoMock_company_name)));
+        event.setDescription(mContext.getString(R.string.data_generation_event_description));
+        event.setResponsible(mCompanyDaoMock.getCompanyByName(mContext.getString(R.string.data_generation_company_name)));
         event.setEventState(mEventState[(int) (mEventState.length * random)]);
 
         List<URI> list = new ArrayList<URI>();
@@ -69,7 +69,7 @@ public class EventDaoMock implements EventDao {
                 list.add(new URI(element));
             }
         } catch (URISyntaxException e) {
-            Log.e(mContext.getString(R.string.Log_tag), mContext.getString(R.string.EventDaoMock_URI_exception) + e);
+            Log.e(mContext.getString(R.string.log_tag), mContext.getString(R.string.error_uri_exception) + e);
         }
 
         event.setPhotos(list);

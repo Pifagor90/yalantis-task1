@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">YalantisTask1</string>
-    <string name="main_activity_created">Створено</string>
-    <string name="main_activity_registred">Зареєстровано</string>
-    <string name="main_activity_responsible">Відповідальний</string>
-    <string name="main_activity_finish_up_to">Вирішити до</string>
-    <string name="EventDaoMock_company_name">Днепр МВК</string>
-    <string name="toast_state_button">Button state was pressed</string>
-    <string name="toast_image_part_1">ImageView #</string>
-    <string name="EventDaoMock_URI_exception">програміст ввів невірний uri в EventDaoMock</string>
-    <string name="toast_image_part_2"> була натиснута</string>
-    <string name="EventDaoMock_description">Але щоб ви зрозуміли, звідки виникає це хибне уявлення людей, цуратись насолоди і вихваляти страждання, я розкрию перед вами всю картину і роз’ясню, що саме говорив цей чоловік, який відкрив істину, якого я б назвав зодчим щасливого життя.</string>
-    <string name="title_activity_list_event">Всі звернення</string>
+    <string name="single_event_activity_created">Створено</string>
+    <string name="single_event_activity_registred">Зареєстровано</string>
+    <string name="single_event_activity_responsible">Відповідальний</string>
+    <string name="single_event_activity_finish_up_to">Вирішити до</string>
+    <string name="data_generation_company_name">Днепр МВК</string>
+    <string name="single_event_activity_msg_state_button">Button state was pressed</string>
+    <string name="single_event_activity_msg_image_part_1">ImageView #</string>
+    <string name="error_uri_exception">програміст ввів невірний uri в EventDaoMock</string>
+    <string name="single_event_activity_msg_image_part_2"> була натиснута</string>
+    <string name="data_generation_event_description">Але щоб ви зрозуміли, звідки виникає це хибне уявлення людей, цуратись насолоди і вихваляти страждання, я розкрию перед вами всю картину і роз’ясню, що саме говорив цей чоловік, який відкрив істину, якого я б назвав зодчим щасливого життя.</string>
+    <string name="list_event_activity_title">Всі звернення</string>
 
 
-    <string-array name="EventType_array">
+    <string-array name="event_types">
         <item>Комунальне господарство</item>
         <item>Прибирання та санітарний стан територій</item>
         <item>Питанння стосовно нарахування боргу електроенергії</item>
     </string-array>
 
-    <string-array name="EventStreet_array">
+    <string-array name="event_streets">
         <item>Дивна вул.</item>
         <item>Дуже дуже дуже дуже дуже дуже довга назва вул.</item>
         <item>Коротка назва вул.</item>
     </string-array>
 
-    <string-array name="EventState_array">
+    <string-array name="event_states">
         <item>В роботі</item>
         <item>Виконано</item>
         <item>Не виконано</item>
@@ -37,15 +37,15 @@
     <string name="event_state_waiting">Не виконано</string>
 
 
-    <plurals name="weirdDaysCounter">
+    <plurals name="list_event_activity_weird_days_counter">
         <item quantity="one">%d день</item>
         <item quantity="other">%d днів</item>
         <item quantity="few">%d дні</item>
         <item quantity="many">%d днів</item>
     </plurals>
-    <string name="navigation_drawer_footer_text">Зроблено з любов\'ю</string>
-    <string name="navigation_drawer_footer_links"><a href="http://www.itruh.dp.ua/" target="_top">It Ruh Dnipro</a> та <a href="http://www.yalantis.com" target="_top">Yalantis</a></string>
-    <string name="navigation_drawer_list_event_all_requests">Усі запити</string>
-    <string name="navigation_drawer_list_event_enter_account">Ввійти в акаунт</string>
-    <string name="navigation_drawer_list_event_requests_at_map">Запроси на мапі</string>
+    <string name="list_event_activity_navigation_drawer_footer_text">Зроблено з любов\'ю</string>
+    <string name="list_event_activity_navigation_drawer_footer_links"><a href="http://www.itruh.dp.ua/" target="_top">It Ruh Dnipro</a> та <a href="http://www.yalantis.com" target="_top">Yalantis</a></string>
+    <string name="list_event_activity_navigation_drawer_menu_all_requests">Усі запити</string>
+    <string name="list_event_activity_navigation_drawer_menu_enter_account">Ввійти в акаунт</string>
+    <string name="list_event_activity_navigation_drawer_menu_requests_at_map">Запроси на мапі</string>
 </resources>

@@ -13,7 +13,7 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:paddingLeft="@dimen/nav_header_vertical_spacing"
         android:paddingBottom="@dimen/nav_header_bot_padding"
-        android:text="@string/nav_view_header_text"
+        android:text="@string/list_event_activity_nav_view_header_text"
         android:textSize="@dimen/nav_view_header_text"
         android:textColor="@color/white_69"/>
 

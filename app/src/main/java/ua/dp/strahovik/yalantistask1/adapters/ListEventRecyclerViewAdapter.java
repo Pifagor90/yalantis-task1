@@ -2,7 +2,6 @@ package ua.dp.strahovik.yalantistask1.adapters;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,18 +17,22 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import ua.dp.strahovik.yalantistask1.R;
-import ua.dp.strahovik.yalantistask1.SingleEventInfoActivity;
 import ua.dp.strahovik.yalantistask1.entities.Event;
+import ua.dp.strahovik.yalantistask1.listeners.OnEventClickListener;
 import ua.dp.strahovik.yalantistask1.util.EventTypeConformityToImage;
 import ua.dp.strahovik.yalantistask1.util.TimeUtil;
 
-public class ListEventRecyclerViewAdapter extends RecyclerView.Adapter<ListEventRecyclerViewAdapter.ViewHolder>{
+public class ListEventRecyclerViewAdapter extends RecyclerView.Adapter<ListEventRecyclerViewAdapter.ViewHolder> {
 
     private List<Event> mEventList;
     private Context mContext;
     private final SimpleDateFormat mSimpleDateFormat;
     private Map<String, Drawable> mEventTypeConformityMap;
+    private OnEventClickListener mOnEventClickListener;
 
+    public void setOnEventClickListener(OnEventClickListener onEventClickListener) {
+        mOnEventClickListener = onEventClickListener;
+    }
 
     public ListEventRecyclerViewAdapter(List<Event> eventList, Context context) {
         mEventList = eventList;
@@ -38,7 +41,7 @@ public class ListEventRecyclerViewAdapter extends RecyclerView.Adapter<ListEvent
         mEventTypeConformityMap = EventTypeConformityToImage.getConformityMap(mContext);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView mEventTypeImageView;
         private TextView mEventLikeCount;
         private TextView mEventType;
@@ -76,16 +79,16 @@ public class ListEventRecyclerViewAdapter extends RecyclerView.Adapter<ListEvent
         holder.mEventType.setText(event.getEventType());
         holder.mEventAddress.setText(event.getAddress());
         holder.mEventDate.setText(mSimpleDateFormat.format(event.getCreationDate()));
-        long weirdDaysCounter = TimeUtil.getDateDiff(event.getCreationDate(),event.getDeadlineDate(),
+        long weirdDaysCounter = TimeUtil.getDateDiff(event.getCreationDate(), event.getDeadlineDate(),
                 TimeUnit.DAYS);
         holder.mEventWeirdDaysCounter.setText(mContext.getResources().getQuantityString(
-                R.plurals.weirdDaysCounter,(int) weirdDaysCounter, (int) weirdDaysCounter));
+                R.plurals.list_event_activity_weird_days_counter, (int) weirdDaysCounter, (int) weirdDaysCounter));
         holder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, SingleEventInfoActivity.class);
-                intent.putExtra("Event id", event.getId());
-                mContext.startActivity(intent);
+                if (mOnEventClickListener != null) {
+                    mOnEventClickListener.onEventClick(event);
+                }
             }
         });
     }

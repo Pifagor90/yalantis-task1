@@ -1,54 +1,46 @@
 <resources>
+    <!-- General info-->
     <string name="app_name">YalantisTask1</string>
     <string name="action_settings" translatable="false">Settings</string>
-    <string name="main_activity_created">Created</string>
-    <string name="main_activity_registred">Registred</string>
-    <string name="main_activity_finish_up_to">Finish up to</string>
-    <string name="main_activity_responsible">Responsible</string>
-    <string name="EventDaoMock_description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididuntut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
-    <string name="EventDaoMock_company_name">Dnipr MVK</string>
-    <string name="Log_tag" translatable="false">Yalantis</string>
-    <string name="EventDaoMock_URI_exception">progarmmer entered wrong uri in EventDaoMock </string>
-    <string name="main_activity_simple_date_format" translatable="false">d MMMM yyyy</string>
+    <string name="log_tag" translatable="false">Yalantis</string>
+    <string name="error_uri_exception">Programmer entered wrong uri in EventDaoMock </string>
+
+    <!-- SingleEventActivity-->
+    <string name="single_event_activity_created">Created</string>
+    <string name="single_event_activity_registred">Registred</string>
+    <string name="single_event_activity_finish_up_to">Finish up to</string>
+    <string name="single_event_activity_responsible">Responsible</string>
+    <string name="single_event_activity_simple_date_format" translatable="false">d MMMM yyyy</string>
+    <string name="single_event_activity_msg_state_button">Button state was pressed</string>
+    <string name="single_event_activity_msg_image_part_1">ImageView #</string>
+    <string name="single_event_activity_msg_image_part_2"> was pressed</string>
+
+    <!-- ListEventActivity-->
+    <string name="list_event_activity_title">All requests</string>
     <string name="list_event_activity_simple_date_format" translatable="false">MMM d, yyyy</string>
-    <string name="toast_state_button">Button state was pressed</string>
-    <string name="toast_image_part_1">ImageView #</string>
-    <string name="toast_image_part_2"> was pressed</string>
+    <string name="list_event_activity_navigation_drawer_open">Open navigation drawer</string>
+    <string name="list_event_activity_navigation_drawer_close">Close navigation drawer</string>
+    <string name="list_event_activity_nav_view_header_text">e-contact</string>
+    <string name="list_event_activity_navigation_drawer_footer_text">Made with love</string>
+    <string name="list_event_activity_navigation_drawer_footer_links"><a href="http://www.itruh.dp.ua/" target="_top">It Ruh Dnipro</a> and <a href="http://www.yalantis.com" target="_top">Yalantis</a></string>
 
-    <string-array name="EventDaoMock_URI_array">
-        <item>http://i.imgur.com/JnogEyO.jpg</item>
-        <item>http://i.imgur.com/45M76q0.jpg</item>
-        <item>http://i.imgur.com/OB5xinf.jpg</item>
-        <item>http://i.imgur.com/HkdMadu.png</item>
-    </string-array>
+    <string name="list_event_activity_navigation_drawer_menu_all_requests">All requests</string>
+    <string name="list_event_activity_navigation_drawer_menu_requests_at_map">Requests at map</string>
+    <string name="list_event_activity_navigation_drawer_menu_enter_account">Enter account</string>
 
-    <string name="title_activity_list_event">All requests</string>
+    <plurals name="list_event_activity_weird_days_counter">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="navigation_drawer_footer_links"><a href="http://www.itruh.dp.ua/" target="_top">It Ruh Dnipro</a> and <a href="http://www.yalantis.com" target="_top">Yalantis</a></string>
-
-    <string name="navigation_drawer_footer_text">Made with love</string>
-    <string name="navigation_drawer_list_event_all_requests">All requests</string>
-    <string name="navigation_drawer_list_event_requests_at_map">Requests at map</string>
-    <string name="navigation_drawer_list_event_enter_account">Enter account</string>
-
-
-
-    <string-array name="EventType_array">
+    <!-- Entities-->
+    <string-array name="event_types">
         <item>Municipal services</item>
         <item>Cleaning and sanitary condition of territories</item>
         <item>Questions regarding the overdue of electricity</item>
     </string-array>
 
-    <string-array name="EventStreet_array">
-        <item>Weird str.</item>
-        <item>Very very very very long street name str.</item>
-        <item>Short street str.</item>
-    </string-array>
-
-    <string-array name="EventState_array">
+    <string-array name="event_states">
         <item>In progress</item>
         <item>Done</item>
         <item>Not done</item>
@@ -57,11 +49,20 @@
     <string name="event_state_in_progress">In progress</string>
     <string name="event_state_done">Done</string>
     <string name="event_state_waiting">Not done</string>
-    <string name="nav_view_header_text">e-contact</string>
 
-    <plurals name="weirdDaysCounter">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
-    </plurals>
+    <!-- Data generation-->
+    <string name="data_generation_event_description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididuntut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="data_generation_company_name">Dnipr MVK</string>
+    <string-array name="data_generation_image_uris">
+        <item>http://i.imgur.com/JnogEyO.jpg</item>
+        <item>http://i.imgur.com/45M76q0.jpg</item>
+        <item>http://i.imgur.com/OB5xinf.jpg</item>
+        <item>http://i.imgur.com/HkdMadu.png</item>
+    </string-array>
 
+    <string-array name="data_generation_event_streets">
+        <item>Weird str.</item>
+        <item>Very very very very long street name str.</item>
+        <item>Short street str.</item>
+    </string-array>
 </resources>

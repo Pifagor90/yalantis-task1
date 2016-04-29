@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -24,12 +23,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     private List<URI> mList;
     private Context mContext;
+    private OnItemClickListener mOnEventClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onEventClickListener) {
+        mOnEventClickListener = onEventClickListener;
+    }
 
     public ImageAdapter(List<URI> list) {
         mList = list;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mImageView;
 
@@ -53,7 +57,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(ImageAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ImageAdapter.ViewHolder holder, final int position) {
         URI uri = mList.get(position);
 
         final int pos = position;
@@ -61,14 +65,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, mContext.getString(R.string.toast_image_part_1) + pos +
-                        mContext.getString(R.string.toast_image_part_2), Toast.LENGTH_LONG).show();
+                if (mOnEventClickListener != null) {
+                    mOnEventClickListener.onItemClick(pos);
+                }
             }
         });
         Picasso.with(mContext)
                 .load(String.valueOf(uri))
-                .placeholder(R.drawable.android_placeholder)
-                .error(R.drawable.error_placeholder)
+                .placeholder(R.drawable.image_view_placeholder_deafault)
+                .error(R.drawable.image_view_placeholder_error)
                 .resizeDimen(R.dimen.content_main_image_width, R.dimen.content_main_image_height)
                 .centerCrop()
                 .into(imageView);
@@ -79,4 +84,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         return mList.size();
     }
 
+    public interface OnItemClickListener {
+        public void onItemClick(int position);
+    }
 }

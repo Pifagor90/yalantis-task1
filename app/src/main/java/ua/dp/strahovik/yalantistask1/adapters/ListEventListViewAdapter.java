@@ -2,7 +2,6 @@ package ua.dp.strahovik.yalantistask1.adapters;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +17,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import ua.dp.strahovik.yalantistask1.R;
-import ua.dp.strahovik.yalantistask1.SingleEventInfoActivity;
 import ua.dp.strahovik.yalantistask1.entities.Event;
+import ua.dp.strahovik.yalantistask1.listeners.OnEventClickListener;
 import ua.dp.strahovik.yalantistask1.util.EventTypeConformityToImage;
 import ua.dp.strahovik.yalantistask1.util.TimeUtil;
 
@@ -29,6 +28,11 @@ public class ListEventListViewAdapter extends BaseAdapter {
     private final LayoutInflater mLayoutInflater;
     private final SimpleDateFormat mSimpleDateFormat;
     private Map<String, Drawable> mEventTypeConformityMap;
+    private OnEventClickListener mOnEventClickListener;
+
+    public void setOnEventClickListener(OnEventClickListener onEventClickListener) {
+        mOnEventClickListener = onEventClickListener;
+    }
 
     public ListEventListViewAdapter(List<Event> eventList, Context context) {
         mEventList = eventList;
@@ -36,6 +40,26 @@ public class ListEventListViewAdapter extends BaseAdapter {
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mSimpleDateFormat = new SimpleDateFormat(mContext.getString(R.string.list_event_activity_simple_date_format));
         mEventTypeConformityMap = EventTypeConformityToImage.getConformityMap(mContext);
+    }
+
+    static class ViewHolder {
+        private ImageView mEventTypeImageView;
+        private TextView mEventLikeCount;
+        private TextView mEventType;
+        private TextView mEventAddress;
+        private TextView mEventDate;
+        private TextView mEventWeirdDaysCounter;
+        private LinearLayout mLinearLayout;
+
+        public ViewHolder(View itemView) {
+            mEventTypeImageView = (ImageView) itemView.findViewById(R.id.item_list_event_image_view_type);
+            mEventLikeCount = (TextView) itemView.findViewById(R.id.item_list_event_fb_counter);
+            mEventType = (TextView) itemView.findViewById(R.id.item_list_event_text_type);
+            mEventAddress = (TextView) itemView.findViewById(R.id.item_list_event_text_address);
+            mEventDate = (TextView) itemView.findViewById(R.id.item_list_event_text_date);
+            mEventWeirdDaysCounter = (TextView) itemView.findViewById(R.id.item_list_event_text_weird_data);
+            mLinearLayout = (LinearLayout) itemView.findViewById(R.id.item_list_event_LinearLayout);
+        }
     }
 
     @Override
@@ -56,35 +80,31 @@ public class ListEventListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
+        ViewHolder holder;
         if (view == null) {
             view = mLayoutInflater.inflate(R.layout.item_list_event, parent, false);
+            holder = new ViewHolder(view);
+            view.setTag(holder);
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
         final Event event = mEventList.get(position);
 
-        ImageView eventTypeImageView = (ImageView) view.findViewById(R.id.item_list_event_image_view_type);
-        TextView eventLikeCount = (TextView) view.findViewById(R.id.item_list_event_fb_counter);
-        TextView eventType = (TextView) view.findViewById(R.id.item_list_event_text_type);
-        TextView eventAddress = (TextView) view.findViewById(R.id.item_list_event_text_address);
-        TextView eventDate = (TextView) view.findViewById(R.id.item_list_event_text_date);
-        TextView eventWeirdDaysCounter = (TextView) view.findViewById(R.id.item_list_event_text_weird_data);
-        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.item_list_event_LinearLayout);
-
-
-        eventTypeImageView.setImageDrawable(mEventTypeConformityMap.get(event.getEventType()));
-        eventLikeCount.setText("" + event.getLikeCounter());
-        eventType.setText(event.getEventType());
-        eventAddress.setText(event.getAddress());
-        eventDate.setText(mSimpleDateFormat.format(event.getCreationDate()));
+        holder.mEventTypeImageView.setImageDrawable(mEventTypeConformityMap.get(event.getEventType()));
+        holder.mEventLikeCount.setText("" + event.getLikeCounter());
+        holder.mEventType.setText(event.getEventType());
+        holder.mEventAddress.setText(event.getAddress());
+        holder.mEventDate.setText(mSimpleDateFormat.format(event.getCreationDate()));
         long weirdDaysCounter = TimeUtil.getDateDiff(event.getCreationDate(), event.getDeadlineDate(),
                 TimeUnit.DAYS);
-        eventWeirdDaysCounter.setText(mContext.getResources().getQuantityString(
-                R.plurals.weirdDaysCounter,(int)weirdDaysCounter, (int) weirdDaysCounter));
-        linearLayout.setOnClickListener(new View.OnClickListener() {
+        holder.mEventWeirdDaysCounter.setText(mContext.getResources().getQuantityString(
+                R.plurals.list_event_activity_weird_days_counter, (int) weirdDaysCounter, (int) weirdDaysCounter));
+        holder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, SingleEventInfoActivity.class);
-                intent.putExtra("Event id", event.getId());
-                mContext.startActivity(intent);
+                if (mOnEventClickListener != null) {
+                    mOnEventClickListener.onEventClick(event);
+                }
             }
         });
         return view;

@@ -42,7 +42,7 @@
                 android:layout_height="@dimen/fb_thumbs_up_height"
                 android:layout_gravity="bottom"
                 android:gravity="bottom"
-                android:src="@drawable/thumb_up"/>
+                android:src="@drawable/ic_thumb_up"/>
 
             <TextView
                 android:id="@+id/item_list_event_fb_counter"
@@ -56,7 +56,7 @@
 
     </LinearLayout>
 
-    <include layout="@layout/separator_vertical"/>
+    <include layout="@layout/divider_vertical"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -93,12 +93,12 @@
 
             <TextView
                 android:id="@+id/item_list_event_text_date"
-                style="@style/item_list_event_data"
+                style="@style/ItemListEventActivityData"
                 android:layout_weight="0.8"/>
 
             <TextView
                 android:id="@+id/item_list_event_text_weird_data"
-                style="@style/item_list_event_data"
+                style="@style/ItemListEventActivityData"
                 android:layout_weight="0.2"
                 android:gravity="right"
                 android:paddingRight="@dimen/min_padding"/>

@@ -9,15 +9,15 @@
     android:paddingRight="@dimen/list_event_recycler"
     android:paddingTop="@dimen/list_event_recycler"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="ua.dp.strahovik.yalantistask1.ListEventActivity"
-    tools:showIn="@layout/content_list_event"
+    tools:context=".view.activity.ListEventActivity"
+    tools:showIn="@layout/partial_list_event_content"
     android:background="@drawable/list_event_background"
     android:orientation="vertical"
     android:id="@+id/fragment_list_event_layout_4_inflate">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_recyclerView"
-        style="@style/width_match_height_wrap"
+        style="@style/WidthMatchHeightWrap"
 >
 
     </android.support.v7.widget.RecyclerView>

@@ -3,7 +3,7 @@ Copyright info
 */
 
 
-package ua.dp.strahovik.yalantistask1;
+package ua.dp.strahovik.yalantistask1.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 
+import ua.dp.strahovik.yalantistask1.R;
 import ua.dp.strahovik.yalantistask1.adapters.ImageAdapter;
 import ua.dp.strahovik.yalantistask1.decorators.ImageRecyclerDecorator;
 import ua.dp.strahovik.yalantistask1.services.EventDao;
@@ -26,10 +27,8 @@ import ua.dp.strahovik.yalantistask1.services.EventDaoMock;
 import ua.dp.strahovik.yalantistask1.entities.Event;
 
 public class SingleEventInfoActivity extends AppCompatActivity {
-    private EventDao mEventDao;
     private Event mEvent;
     private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     private Button mEventStateButton;
     private TextView mCreationDateTextView;
@@ -49,9 +48,9 @@ public class SingleEventInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_single_event_info);
 
         /*Retrieving data from services*/
-        mEventDao = new EventDaoMock(this);
+        EventDao eventDao = new EventDaoMock(this);
         Intent intent = getIntent();
-        mEvent = mEventDao.getEventById(intent.getStringExtra("Event id"));
+        mEvent = eventDao.getEventById(intent.getStringExtra("Event id"));
         /*End of retrieving data*/
 
         initWidgets();
@@ -59,6 +58,7 @@ public class SingleEventInfoActivity extends AppCompatActivity {
         initDataToViews();
         setListeners();
     }
+
 
     private void initWidgets() {
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
@@ -80,11 +80,19 @@ public class SingleEventInfoActivity extends AppCompatActivity {
     private void initRecycleView() {
 
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(),
+                LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(new ImageRecyclerDecorator(this));
 
         ImageAdapter adapter = new ImageAdapter(mEvent.getPhotos());
+        adapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(getApplicationContext(), getString(R.string.single_event_activity_msg_image_part_1) +
+                        position + getString(R.string.single_event_activity_msg_image_part_2), Toast.LENGTH_LONG).show();
+            }
+        });
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -97,7 +105,7 @@ public class SingleEventInfoActivity extends AppCompatActivity {
         mEventStateButton.setText(mEvent.getEventState());
         mActionBar.setTitle(mEvent.getId());
         mEventTypeTextView.setText(mEvent.getEventType());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.main_activity_simple_date_format));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.single_event_activity_simple_date_format));
         mCreationDateTextView.setText(simpleDateFormat.format(mEvent.getCreationDate()));
         mRegistrationDateTextView.setText(simpleDateFormat.format(mEvent.getRegistrationDate()));
         mDeadlineDateTextView.setText(simpleDateFormat.format(mEvent.getDeadlineDate()));
@@ -117,7 +125,7 @@ public class SingleEventInfoActivity extends AppCompatActivity {
         mEventStateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SingleEventInfoActivity.this, R.string.toast_state_button, Toast.LENGTH_LONG).show();
+                Toast.makeText(SingleEventInfoActivity.this, R.string.single_event_activity_msg_state_button, Toast.LENGTH_LONG).show();
             }
         });
 
