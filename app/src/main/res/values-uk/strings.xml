@@ -8,7 +8,7 @@
     <string name="data_generation_company_name">Днепр МВК</string>
     <string name="single_event_activity_msg_state_button">Button state was pressed</string>
     <string name="single_event_activity_msg_image_part_1">ImageView #</string>
-    <string name="error_uri_exception">програміст ввів невірний uri в EventDaoMock</string>
+    <string name="error_uri_exception">невірний uri попав в базу</string>
     <string name="single_event_activity_msg_image_part_2"> була натиснута</string>
     <string name="data_generation_event_description">Але щоб ви зрозуміли, звідки виникає це хибне уявлення людей, цуратись насолоди і вихваляти страждання, я розкрию перед вами всю картину і роз’ясню, що саме говорив цей чоловік, який відкрив істину, якого я б назвав зодчим щасливого життя.</string>
     <string name="list_event_activity_title">Всі звернення</string>

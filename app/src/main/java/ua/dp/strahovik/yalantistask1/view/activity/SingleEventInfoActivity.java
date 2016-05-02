@@ -5,6 +5,7 @@ Copyright info
 
 package ua.dp.strahovik.yalantistask1.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -22,12 +23,13 @@ import java.text.SimpleDateFormat;
 import ua.dp.strahovik.yalantistask1.R;
 import ua.dp.strahovik.yalantistask1.adapters.ImageAdapter;
 import ua.dp.strahovik.yalantistask1.decorators.ImageRecyclerDecorator;
-import ua.dp.strahovik.yalantistask1.services.EventDao;
-import ua.dp.strahovik.yalantistask1.services.EventDaoMock;
 import ua.dp.strahovik.yalantistask1.entities.Event;
+import ua.dp.strahovik.yalantistask1.presenters.SingleEventPresenter;
 
-public class SingleEventInfoActivity extends AppCompatActivity {
-    private Event mEvent;
+public class SingleEventInfoActivity extends AppCompatActivity implements SingleEventMvpView {
+    public static final String EVENT_ID = "ua.dp.strahovik.yalantistask1.view.activity.SingleEventInfoActivity.event_id";
+
+    private SingleEventPresenter mSingleEventPresenter;
     private RecyclerView mRecyclerView;
 
     private Button mEventStateButton;
@@ -40,33 +42,38 @@ public class SingleEventInfoActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private ActionBar mActionBar;
     private TextView mEventTypeTextView;
+    private ImageAdapter mImageAdapter;
 
+    public static Intent getStartIntent(Context context, String eventId) {
+        Intent intent = new Intent(context, SingleEventInfoActivity.class);
+        intent.putExtra(EVENT_ID, eventId);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_event_info);
-
-        /*Retrieving data from services*/
-        EventDao eventDao = new EventDaoMock(this);
-        Intent intent = getIntent();
-        mEvent = eventDao.getEventById(intent.getStringExtra("Event id"));
-        /*End of retrieving data*/
-
         initWidgets();
         initRecycleView();
-        initDataToViews();
+        initActionBar();
         setListeners();
+        mSingleEventPresenter = new SingleEventPresenter(getApplicationContext());
+        mSingleEventPresenter.attachView(this);
+        mSingleEventPresenter.loadEventById(getIntent().getStringExtra(EVENT_ID));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSingleEventPresenter.detachView();
+    }
 
     private void initWidgets() {
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         mActionBar = getSupportActionBar();
-
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
         mEventTypeTextView = (TextView) findViewById(R.id.single_event_info_event_type);
         mEventStateButton = (Button) findViewById(R.id.button_state);
         mCreationDateTextView = (TextView) findViewById(R.id.created_date);
@@ -76,7 +83,6 @@ public class SingleEventInfoActivity extends AppCompatActivity {
         mDescriptionTextView = (TextView) findViewById(R.id.description_text);
     }
 
-    /*Generating recycleView*/
     private void initRecycleView() {
 
         mRecyclerView.setHasFixedSize(true);
@@ -84,34 +90,24 @@ public class SingleEventInfoActivity extends AppCompatActivity {
                 LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(new ImageRecyclerDecorator(this));
-
-        ImageAdapter adapter = new ImageAdapter(mEvent.getPhotos());
-        adapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
+        mImageAdapter = new ImageAdapter();
+        mImageAdapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 Toast.makeText(getApplicationContext(), getString(R.string.single_event_activity_msg_image_part_1) +
                         position + getString(R.string.single_event_activity_msg_image_part_2), Toast.LENGTH_LONG).show();
             }
         });
-        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setAdapter(mImageAdapter);
     }
 
-    /*Initialize all data from Dao to views*/
-    private void initDataToViews() {
+    private void initActionBar() {
         if (mActionBar != null) {
             mActionBar.setHomeButtonEnabled(true);
             mActionBar.setDisplayHomeAsUpEnabled(true);
         }
-        mEventStateButton.setText(mEvent.getEventState());
-        mActionBar.setTitle(mEvent.getId());
-        mEventTypeTextView.setText(mEvent.getEventType());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString(R.string.single_event_activity_simple_date_format));
-        mCreationDateTextView.setText(simpleDateFormat.format(mEvent.getCreationDate()));
-        mRegistrationDateTextView.setText(simpleDateFormat.format(mEvent.getRegistrationDate()));
-        mDeadlineDateTextView.setText(simpleDateFormat.format(mEvent.getDeadlineDate()));
-        mResponsibleTextView.setText(mEvent.getResponsible().getName());
-        mDescriptionTextView.setText(mEvent.getDescription());
     }
+
 
     private void setListeners() {
 
@@ -125,10 +121,34 @@ public class SingleEventInfoActivity extends AppCompatActivity {
         mEventStateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SingleEventInfoActivity.this, R.string.single_event_activity_msg_state_button, Toast.LENGTH_LONG).show();
+                Toast.makeText(SingleEventInfoActivity.this, R.string.single_event_activity_msg_state_button,
+                        Toast.LENGTH_LONG).show();
             }
         });
+    }
 
+    /*****
+     * MVP View methods implementation
+     *****/
+
+    public void showEvent(Event event) {
+        mEventStateButton.setText(event.getEventState());
+        mActionBar.setTitle(event.getId());
+        mEventTypeTextView.setText(event.getEventType());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString
+                (R.string.single_event_activity_simple_date_format));
+        mCreationDateTextView.setText(simpleDateFormat.format(event.getCreationDate()));
+        mRegistrationDateTextView.setText(simpleDateFormat.format(event.getRegistrationDate()));
+        mDeadlineDateTextView.setText(simpleDateFormat.format(event.getDeadlineDate()));
+        mResponsibleTextView.setText(event.getResponsible().getName());
+        mDescriptionTextView.setText(event.getDescription());
+        mImageAdapter.setList(event.getPhotos());
+        mImageAdapter.notifyDataSetChanged();
+    }
+
+    public void showError() {
+        Toast.makeText(this, getString(R.string.error_data_retrieving_exception),
+                Toast.LENGTH_LONG).show();
     }
 
 }

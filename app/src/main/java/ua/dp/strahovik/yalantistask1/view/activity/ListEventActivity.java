@@ -3,41 +3,30 @@ package ua.dp.strahovik.yalantistask1.view.activity;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.ViewPager;
-import android.text.method.LinkMovementMethod;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import ua.dp.strahovik.yalantistask1.R;
 import ua.dp.strahovik.yalantistask1.adapters.PagerAdapter;
-import ua.dp.strahovik.yalantistask1.services.EventDao;
-import ua.dp.strahovik.yalantistask1.services.EventDaoMock;
+import ua.dp.strahovik.yalantistask1.services.EventGenerationService;
 import ua.dp.strahovik.yalantistask1.util.ToolbarNavigationUtil;
-
-// Why your .png files are out of the ‘res’ folder? 
-
-// SingleEventInfoActivity (51) - you should not access data in onCreate() method
-
-// Wrong resources naming (ic_event_type_electricity.pngtype_electricity.png, ic_event_type_municipal_service.pngal_service.png, ic_thumb_up_up.png …)
-
-// Wrong values naming
-// https://github.com/ribot/android-guidelines/blob/master/project_and_code_guidelines.md
 
 public class ListEventActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private EventDao mEventDao;
     private TextView mNavigationFooterLinksTextView;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
@@ -51,18 +40,14 @@ public class ListEventActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_event);
-
-        initViewsAndData();
+        initViews();
         initNavigationView();
         initPager();
+        startService(EventGenerationService.getStartIntent(getBaseContext()));
     }
 
 
-    private void initViewsAndData() {
-//        Data
-        mEventDao = new EventDaoMock(this);
-
-//        Views
+    private void initViews() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -116,7 +101,7 @@ public class ListEventActivity extends AppCompatActivity
 
     private void initPager() {
         final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(),
-                mTabLayout.getTabCount(), getApplicationContext(), mEventDao);
+                mTabLayout.getTabCount(), getApplicationContext());
         mViewPager.setAdapter(adapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

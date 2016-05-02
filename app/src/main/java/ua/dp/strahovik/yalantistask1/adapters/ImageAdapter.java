@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import ua.dp.strahovik.yalantistask1.R;
@@ -25,12 +26,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     private Context mContext;
     private OnItemClickListener mOnEventClickListener;
 
+    public void setList(List<URI> list) {
+        mList = list;
+    }
+
     public void setOnItemClickListener(OnItemClickListener onEventClickListener) {
         mOnEventClickListener = onEventClickListener;
     }
 
-    public ImageAdapter(List<URI> list) {
-        mList = list;
+    public ImageAdapter() {
+        mList = new ArrayList<>();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -85,6 +90,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     }
 
     public interface OnItemClickListener {
-        public void onItemClick(int position);
+        void onItemClick(int position);
     }
 }

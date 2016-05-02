@@ -14,7 +14,8 @@ public class EventTypeConformityToImage {
 
     private static void initMap(Context context) {
         String[] keys = context.getResources().getStringArray(R.array.event_types);
-        TypedArray values = context.getResources().obtainTypedArray(R.array.list_event_activity_event_type_conforming_image_icon);
+        TypedArray values = context.getResources().obtainTypedArray(
+                R.array.list_event_activity_event_type_conforming_image_icon);
         for (int counter = 0; counter < Math.min(keys.length, values.length()); counter++) {
             sConformityMap.put(keys[counter], values.getDrawable(counter));
         }

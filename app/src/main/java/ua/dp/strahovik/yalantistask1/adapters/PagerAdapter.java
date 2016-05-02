@@ -5,22 +5,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-
-import ua.dp.strahovik.yalantistask1.view.fragment.ListEventFragment;
 import ua.dp.strahovik.yalantistask1.R;
-import ua.dp.strahovik.yalantistask1.services.EventDao;
+import ua.dp.strahovik.yalantistask1.view.fragment.ListEventFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     private Context mContext;
     private int mNumOfTabs;
-    private EventDao mEventDao;
 
-    public PagerAdapter(FragmentManager fragmentManager, int NumOfTabs, Context context,
-                        EventDao eventDao) {
+    public PagerAdapter(FragmentManager fragmentManager, int NumOfTabs, Context context) {
         super(fragmentManager);
         mNumOfTabs = NumOfTabs;
         mContext = context;
-        mEventDao = eventDao;
     }
 
     @Override
@@ -28,16 +23,13 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         ListEventFragment listEventFragment;
         switch (position) {
             case 0:
-                listEventFragment = ListEventFragment.newInstance(mEventDao.getListEventByEventState
-                        (mContext.getString(R.string.event_state_in_progress)), true);
+                listEventFragment = ListEventFragment.newInstance(mContext.getString(R.string.event_state_in_progress), true);
                 return listEventFragment;
             case 1:
-                listEventFragment = ListEventFragment.newInstance(mEventDao.getListEventByEventState
-                        (mContext.getString(R.string.event_state_done)), true);
+                listEventFragment = ListEventFragment.newInstance(mContext.getString(R.string.event_state_done), true);
                 return listEventFragment;
             case 2:
-                listEventFragment = ListEventFragment.newInstance(mEventDao.getListEventByEventState
-                        (mContext.getString(R.string.event_state_waiting)), false);
+                listEventFragment = ListEventFragment.newInstance(mContext.getString(R.string.event_state_waiting), false);
                 return listEventFragment;
             default:
                 return null;

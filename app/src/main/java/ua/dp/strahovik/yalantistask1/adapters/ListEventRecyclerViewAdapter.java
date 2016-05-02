@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -30,12 +31,16 @@ public class ListEventRecyclerViewAdapter extends RecyclerView.Adapter<ListEvent
     private Map<String, Drawable> mEventTypeConformityMap;
     private OnEventClickListener mOnEventClickListener;
 
+    public void setEventList(List<Event> eventList) {
+        mEventList = eventList;
+    }
+
     public void setOnEventClickListener(OnEventClickListener onEventClickListener) {
         mOnEventClickListener = onEventClickListener;
     }
 
-    public ListEventRecyclerViewAdapter(List<Event> eventList, Context context) {
-        mEventList = eventList;
+    public ListEventRecyclerViewAdapter(Context context) {
+        mEventList = new ArrayList<>();
         mContext = context;
         mSimpleDateFormat = new SimpleDateFormat(mContext.getString(R.string.list_event_activity_simple_date_format));
         mEventTypeConformityMap = EventTypeConformityToImage.getConformityMap(mContext);

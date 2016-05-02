@@ -3,7 +3,8 @@
     <string name="app_name">YalantisTask1</string>
     <string name="action_settings" translatable="false">Settings</string>
     <string name="log_tag" translatable="false">Yalantis</string>
-    <string name="error_uri_exception">Programmer entered wrong uri in EventDaoMock </string>
+    <string name="error_uri_exception">Wrong uri was stored in database </string>
+    <string name="error_data_retrieving_exception">There was an error during retrieving of data</string>
 
     <!-- SingleEventActivity-->
     <string name="single_event_activity_created">Created</string>
