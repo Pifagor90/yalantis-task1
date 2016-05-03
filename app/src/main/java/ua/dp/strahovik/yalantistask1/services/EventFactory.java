@@ -50,7 +50,7 @@ public class EventFactory implements Callable<List<Event>> {
                 data_generation_length_of_generated_id_from_event_state_to_substring);
     }
 
-    private Event eventFactory(String id, double random) {
+    private Event generateOneEvent(String id, double random) {
         Event event = new Event();
         event.setId(id);
         event.setCreationDate(new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(5)));
@@ -78,8 +78,8 @@ public class EventFactory implements Callable<List<Event>> {
         return event;
     }
 
-    private Event eventFactory(String id, double random, String eventState) {
-        Event event = eventFactory(id, random);
+    private Event generateOneEvent(String id, double random, String eventState) {
+        Event event = generateOneEvent(id, random);
         event.setEventState(eventState);
         return event;
     }
@@ -102,14 +102,12 @@ public class EventFactory implements Callable<List<Event>> {
 
     @NonNull
     private List<Event> generateEventList(String eventState) {
-        List<Event> list = new ArrayList<Event>();
+        List<Event> list = new ArrayList<>();
         final String startId = eventState.substring(0, lengthOfGeneratedIdFromEventStateToSubstring) + "-";
         for (int counter = 0; counter < mNumberOfEventsToBeGenerated; counter++) {
-            list.add(eventFactory(startId + counter, Math.random(), eventState));
+            list.add(generateOneEvent(startId + counter, Math.random(), eventState));
         }
 
         return list;
     }
-
-
 }
