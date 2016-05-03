@@ -34,7 +34,7 @@ public class DataManager {
 
 
     public Observable<Event> generateEvents() {
-        return Observable.just(mEventFactory.getEventList())
+        return mEventFactory.getEventList()
                 .concatMap(new Func1<List<Event>, Observable<Event>>() {
                     @Override
                     public Observable<Event> call(List<Event> events) {

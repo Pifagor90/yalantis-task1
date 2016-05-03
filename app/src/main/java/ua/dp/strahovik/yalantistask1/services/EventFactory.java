@@ -15,12 +15,17 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import rx.Observable;
 import ua.dp.strahovik.yalantistask1.R;
 import ua.dp.strahovik.yalantistask1.entities.Event;
 
-public class EventFactory {
+public class EventFactory implements Callable<List<Event>> {
 
     private Context mContext;
 
@@ -79,9 +84,15 @@ public class EventFactory {
         return event;
     }
 
+    public Observable<List<Event>> getEventList() {
+        ExecutorService pool = Executors.newSingleThreadExecutor();
+        Future<List<Event>> future = pool.submit(this);
+        return Observable.from(future);
+    }
 
-    public List<Event> getEventList() {
-        List<Event> list = new ArrayList<Event>();
+    @Override
+    public List<Event> call(){
+        List<Event> list = new ArrayList<>();
         for (String eventState : mEventState) {
             list.addAll(generateEventList(eventState));
         }
@@ -98,4 +109,6 @@ public class EventFactory {
 
         return list;
     }
+
+
 }
