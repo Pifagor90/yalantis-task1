@@ -87,6 +87,7 @@ public class EventFactory implements Callable<List<Event>> {
     public Observable<List<Event>> getEventList() {
         ExecutorService pool = Executors.newSingleThreadExecutor();
         Future<List<Event>> future = pool.submit(this);
+        pool.shutdown();
         return Observable.from(future);
     }
 
