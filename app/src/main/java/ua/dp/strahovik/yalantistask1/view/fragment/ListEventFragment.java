@@ -4,26 +4,29 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.os.ResultReceiver;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ua.dp.strahovik.yalantistask1.R;
-import ua.dp.strahovik.yalantistask1.adapters.ListEventListViewAdapter;
 import ua.dp.strahovik.yalantistask1.adapters.ListEventRecyclerViewAdapter;
 import ua.dp.strahovik.yalantistask1.decorators.ListEventRecyclerDecorator;
 import ua.dp.strahovik.yalantistask1.entities.Event;
 import ua.dp.strahovik.yalantistask1.listeners.OnEventClickListener;
 import ua.dp.strahovik.yalantistask1.presenters.ListEventPresenter;
+import ua.dp.strahovik.yalantistask1.services.DownloadMoreEventsService;
+import ua.dp.strahovik.yalantistask1.view.activity.ListEventActivity;
 import ua.dp.strahovik.yalantistask1.view.activity.ListEventMvpView;
 import ua.dp.strahovik.yalantistask1.view.activity.SingleEventInfoActivity;
 
@@ -31,21 +34,30 @@ import ua.dp.strahovik.yalantistask1.view.activity.SingleEventInfoActivity;
 public class ListEventFragment extends Fragment implements OnEventClickListener, ListEventMvpView {
 
     private Context mContext;
-    public static final String EVENT_STATE =
-            "ua.dp.strahovik.yalantistask1.view.fragment.ListEventFragment.event_state";
-    public static final String IS_RECYCLER_VIEW_BASED =
-            "ua.dp.strahovik.yalantistask1.view.fragment.ListEventFragment.is_recycler_view_based";
-    private FloatingActionButton mFloatingActionButton;
-    private boolean mIsRecyclerViewBased;
+    public static final String EVENT_STATE_IDS =
+            "ua.dp.strahovik.yalantistask1.view.fragment.ListEventFragment.event_state_ids";
+    public static final String IS_LOADING =
+            "ua.dp.strahovik.yalantistask1.view.fragment.ListEventFragment.is_loading";
+    public static final String RECEIVER =
+            "ua.dp.strahovik.yalantistask1.view.fragment.ListEventFragment.receiver";
+    @BindView(R.id.fab) FloatingActionButton mFloatingActionButton;
     private ListEventPresenter mListEventPresenter;
     private ListEventRecyclerViewAdapter mListEventRecyclerViewAdapter;
-    private ListEventListViewAdapter mListEventListViewAdapter;
+    private ResultReceiver mReceiver;
 
-    public static ListEventFragment newInstance(String eventState, boolean isRecyclerViewBased) {
+
+    private static AtomicBoolean sIsSynced = new AtomicBoolean(false);
+    private boolean mIsLoading;
+    private int firstVisibleItem, visibleItemCount, totalItemCount;
+    private int[] mEventStateId;
+
+    public static ListEventFragment newInstance(int[] eventState, Boolean isLoading,
+                                                ResultReceiver receiver) {
         ListEventFragment listEventFragment = new ListEventFragment();
         Bundle args = new Bundle();
-        args.putString(EVENT_STATE, eventState);
-        args.putBoolean(IS_RECYCLER_VIEW_BASED, isRecyclerViewBased);
+        args.putIntArray(EVENT_STATE_IDS, eventState);
+        args.putBoolean(IS_LOADING, isLoading);
+        args.putParcelable(RECEIVER, receiver);
         listEventFragment.setArguments(args);
         return listEventFragment;
     }
@@ -56,22 +68,17 @@ public class ListEventFragment extends Fragment implements OnEventClickListener,
         mContext = container.getContext();
 
         Bundle arguments = getArguments();
-        String eventState = arguments.getString(EVENT_STATE);
-        mIsRecyclerViewBased = arguments.getBoolean(IS_RECYCLER_VIEW_BASED, true);
-        mFloatingActionButton = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        mEventStateId = arguments.getIntArray(EVENT_STATE_IDS);
+        mIsLoading = arguments.getBoolean(IS_LOADING, false);
+        mReceiver = arguments.getParcelable(RECEIVER);
+        ButterKnife.bind(this, getActivity());
 
-        View view;
-        if (mIsRecyclerViewBased) {
-            view = inflater.inflate(R.layout.fragment_list_event_recycler, container, false);
-            initRecycleView(view);
-        } else {
-            view = inflater.inflate(R.layout.fragment_list_event_listview, container, false);
-            initListView(view);
-        }
+        View view = inflater.inflate(R.layout.fragment_list_event_recycler, container, false);
+        initRecycleView(view);
 
         mListEventPresenter = new ListEventPresenter(mContext.getApplicationContext());
         mListEventPresenter.attachView(this);
-        mListEventPresenter.loadEventListByEventStateWithoutPhotos(eventState);
+        mListEventPresenter.loadEventListByEventStateWithoutPhotos(mEventStateId);
         return view;
     }
 
@@ -80,29 +87,6 @@ public class ListEventFragment extends Fragment implements OnEventClickListener,
         super.onDestroy();
         mListEventPresenter.detachView();
     }
-
-    private void initListView(View view) {
-        ListView listView = (ListView) view.findViewById(R.id.fragment_listView);
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (scrollState == SCROLL_STATE_IDLE) {
-                    mFloatingActionButton.show();
-                } else {
-                    mFloatingActionButton.hide();
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//                NOP;
-            }
-        });
-        mListEventListViewAdapter = new ListEventListViewAdapter(mContext);
-        mListEventListViewAdapter.setOnEventClickListener(this);
-        listView.setAdapter(mListEventListViewAdapter);
-    }
-
 
     private void initRecycleView(View view) {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragment_recyclerView);
@@ -119,13 +103,62 @@ public class ListEventFragment extends Fragment implements OnEventClickListener,
             }
         });
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(mContext,
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext,
                 LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (sIsSynced.get()) {
+                    if (!mIsLoading) {
+                        if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                            visibleItemCount = linearLayoutManager.getChildCount();
+                            totalItemCount = linearLayoutManager.getItemCount();
+                            if (totalItemCount <= visibleItemCount) {
+                                startDownloadMoreEventsServiceAndNotifyLoading();
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    if (sIsSynced.get()) {
+                        if (!mIsLoading) {
+                            visibleItemCount = linearLayoutManager.getChildCount();
+                            totalItemCount = linearLayoutManager.getItemCount();
+                            if (totalItemCount > visibleItemCount) {
+                                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                                if ((visibleItemCount + firstVisibleItem) >= totalItemCount) {
+                                    startDownloadMoreEventsServiceAndNotifyLoading();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
         mListEventRecyclerViewAdapter = new ListEventRecyclerViewAdapter(mContext);
         mListEventRecyclerViewAdapter.setOnEventClickListener(this);
         recyclerView.addItemDecoration(new ListEventRecyclerDecorator(mContext));
         recyclerView.setAdapter(mListEventRecyclerViewAdapter);
+    }
+
+    private void startDownloadMoreEventsServiceAndNotifyLoading() {
+//        some anim through progressBar may be added here
+        Bundle bundle = new Bundle();
+        bundle.putIntArray(ListEventActivity.FragmentLoadingStateResultReceiver.ARRAY_REQUEST, mEventStateId);
+        bundle.putBoolean(ListEventActivity.FragmentLoadingStateResultReceiver.IS_LOADING, true);
+        mReceiver.send(0, bundle);
+        mContext.startService(DownloadMoreEventsService.getStartIntent(
+                mContext, mEventStateId, totalItemCount, mContext.getResources().
+                        getInteger(R.integer.list_event_activity_default_amount_of_events_to_be_downloaded), mReceiver));
     }
 
 
@@ -134,29 +167,30 @@ public class ListEventFragment extends Fragment implements OnEventClickListener,
         mContext.startActivity(SingleEventInfoActivity.getStartIntent(mContext, event.getId()));
     }
 
+    public static void setIsSynced(boolean isSynced) {
+        sIsSynced.set(isSynced);
+    }
+
+    public int[] getEventStateId() {
+        return mEventStateId;
+    }
+
+    public void setIsLoading(boolean isLoading) {
+        mIsLoading = isLoading;
+    }
     /*****
      * MVP View methods implementation
      *****/
     @Override
     public void showEventList(List<Event> eventList) {
-        if (mIsRecyclerViewBased) {
-            mListEventRecyclerViewAdapter.setEventList(eventList);
-            mListEventRecyclerViewAdapter.notifyDataSetChanged();
-        } else {
-            mListEventListViewAdapter.setEventList(eventList);
-            mListEventListViewAdapter.notifyDataSetChanged();
-        }
+        mListEventRecyclerViewAdapter.setEventList(eventList);
+        mListEventRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void showEventListEmpty() {
-        if (mIsRecyclerViewBased) {
-            mListEventRecyclerViewAdapter.setEventList(Collections.<Event>emptyList());
-            mListEventRecyclerViewAdapter.notifyDataSetChanged();
-        } else {
-            mListEventListViewAdapter.setEventList(Collections.<Event>emptyList());
-            mListEventListViewAdapter.notifyDataSetChanged();
-        }
+        mListEventRecyclerViewAdapter.setEventList(Collections.<Event>emptyList());
+        mListEventRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Override

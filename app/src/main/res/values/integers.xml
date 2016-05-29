@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="list_event_activity_nice_rotation_coefficient">360</integer>
-    <integer name="data_generation_number_of_events_to_be_generated">10</integer>
-    <integer name="data_generation_random_coefficient">10</integer>
-    <integer name="data_generation_length_of_generated_id_from_event_state_to_substring">3</integer>
+    <integer name="list_event_activity_default_amount_of_events_to_be_downloaded">20</integer>
+
+    <integer-array name="list_event_activity_pager_adapter_in_progress">
+        <item>0</item>
+        <item>9</item>
+        <item>5</item>
+        <item>7</item>
+        <item>8</item>
+    </integer-array>
+
+    <integer-array name="list_event_activity_pager_adapter_done">
+        <item>10</item>
+        <item>6</item>
+    </integer-array>
+
+    <integer-array name="list_event_activity_pager_adapter_pending">
+        <item>1</item>
+        <item>3</item>
+        <item>4</item>
+    </integer-array>
 
 </resources>

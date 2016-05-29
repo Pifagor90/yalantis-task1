@@ -31,7 +31,7 @@ public class SingleEventPresenter extends BasePresenter<SingleEventMvpView> {
         if (mSubscription != null) mSubscription.unsubscribe();
     }
 
-    public void loadEventById(String eventId) {
+    public void loadEventById(int eventId) {
         checkViewAttached();
         mSubscription = mDataManager.getEventById(eventId)
                 .observeOn(AndroidSchedulers.mainThread())

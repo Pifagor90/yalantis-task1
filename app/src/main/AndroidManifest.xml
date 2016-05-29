@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="ua.dp.strahovik.yalantistask1"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest
+    package="ua.dp.strahovik.yalantistask1"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <supports-screens
         android:largeScreens="true"
@@ -35,8 +37,50 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".view.activity.FbProfileActivity"
+            android:label="@string/title_activity_fb_profile"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
-        <service android:name=".services.EventGenerationService" />
+        <service android:name=".services.SyncEventsService"/>
+        <service android:name=".services.DownloadMoreEventsService"/>
+        <service android:name=".services.PersistAccessTokenService"/>
+        <service android:name=".services.PersistProfileService"/>
+        <service android:name=".services.PersistFbMePhotosService"/>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+
+
+        <receiver
+            android:name=".services.SyncEventsService$SyncOnConnectionAvailable"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".services.PersistFbMePhotosService$PersistFbMePhotosOnConnectionAvailable"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".services.PersistProfileService$PersistProfileOnConnectionAvailable"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

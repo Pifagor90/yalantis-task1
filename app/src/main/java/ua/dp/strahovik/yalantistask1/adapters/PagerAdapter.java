@@ -4,40 +4,66 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.os.ResultReceiver;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import ua.dp.strahovik.yalantistask1.R;
 import ua.dp.strahovik.yalantistask1.view.fragment.ListEventFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
-    private Context mContext;
     private int mNumOfTabs;
+    private Map<int[], Boolean> mLoadEventsState;
+    private int[] mInProgressArr;
+    private int[] mDoneArr;
+    private int[] mPendingArr;
+    private ResultReceiver mReceiver;
 
-    public PagerAdapter(FragmentManager fragmentManager, int NumOfTabs, Context context) {
+
+    public PagerAdapter(Context context, FragmentManager fragmentManager, int NumOfTabs,
+                        ResultReceiver receiver) {
         super(fragmentManager);
         mNumOfTabs = NumOfTabs;
-        mContext = context;
+        mLoadEventsState = new HashMap<>(NumOfTabs);
+        mInProgressArr = context.getResources().
+                getIntArray(R.array.list_event_activity_pager_adapter_in_progress);
+        mDoneArr = context.getResources().
+                getIntArray(R.array.list_event_activity_pager_adapter_done);
+        mPendingArr = context.getResources().
+                getIntArray(R.array.list_event_activity_pager_adapter_pending);
+
+        mLoadEventsState.put(mInProgressArr, false);
+        mLoadEventsState.put(mDoneArr, false);
+        mLoadEventsState.put(mPendingArr, false);
+        mReceiver = receiver;
     }
 
     @Override
     public Fragment getItem(int position) {
-        ListEventFragment listEventFragment;
         switch (position) {
             case 0:
-                listEventFragment = ListEventFragment.newInstance(mContext.getString(R.string.event_state_in_progress), true);
-                return listEventFragment;
+                return initNewFragment(mInProgressArr);
             case 1:
-                listEventFragment = ListEventFragment.newInstance(mContext.getString(R.string.event_state_done), true);
-                return listEventFragment;
+                return initNewFragment(mDoneArr);
             case 2:
-                listEventFragment = ListEventFragment.newInstance(mContext.getString(R.string.event_state_waiting), false);
-                return listEventFragment;
+                return initNewFragment(mPendingArr);
             default:
                 return null;
         }
     }
 
+    private ListEventFragment initNewFragment(int[] requestArray) {
+        return ListEventFragment.newInstance(requestArray, mLoadEventsState.get(requestArray),
+                mReceiver);
+    }
+
     @Override
     public int getCount() {
         return mNumOfTabs;
+    }
+
+    public void accept(int[] request, boolean isLoading) {
+        mLoadEventsState.put(request, isLoading);
     }
 }

@@ -33,9 +33,9 @@ public class ListEventPresenter extends BasePresenter<ListEventMvpView> {
         if (mSubscription != null) mSubscription.unsubscribe();
     }
 
-    public void loadEventListByEventStateWithoutPhotos(String eventState) {
+    public void loadEventListByEventStateWithoutPhotos(int[] eventStateId) {
         checkViewAttached();
-        mSubscription = mDataManager.getEventByEventStateWithoutPhotos(eventState)
+        mSubscription = mDataManager.getEventByEventStateWithoutPhotos(eventStateId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<List<Event>>() {

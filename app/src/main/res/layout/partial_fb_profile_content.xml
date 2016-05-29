@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="profile"
+            type="com.facebook.Profile"/>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_bckgr_color"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:id="@+id/wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/content"
+                style="@style/WidthMatchHeightWrap"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    style="@style/SingleEventActivityRow">
+
+                    <TextView
+                        style="@style/SingleEventActivityTextView"
+                        android:text="@string/partial_fb_profile_content_first_name"/>
+
+                    <TextView
+                        style="@style/SingleEventActivityInputedTextView"
+                        android:text="@{profile.getFirstName()}"/>
+                </RelativeLayout>
+
+                <include layout="@layout/divider_horizontal"/>
+
+                <RelativeLayout
+                    style="@style/SingleEventActivityRow">
+
+                    <TextView
+                        style="@style/SingleEventActivityTextView"
+                        android:text="@string/partial_fb_profile_content_middle_name"/>
+
+                    <TextView
+                        style="@style/SingleEventActivityInputedTextView"
+                        android:text="@{profile.getMiddleName()}"/>
+                </RelativeLayout>
+
+                <include layout="@layout/divider_horizontal"/>
+
+                <RelativeLayout
+                    style="@style/SingleEventActivityRow">
+
+                    <TextView
+                        style="@style/SingleEventActivityTextView"
+                        android:text="@string/partial_fb_profile_content_last_name"/>
+
+                    <TextView
+                        style="@style/SingleEventActivityInputedTextView"
+                        android:text="@{profile.getLastName()}"/>
+                </RelativeLayout>
+
+                <include layout="@layout/divider_horizontal"/>
+
+                <LinearLayout
+                    android:id="@+id/photos"
+                    style="@style/WidthMatchHeightWrap"
+                    android:paddingTop="@dimen/min_padding">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        style="@style/WidthMatchHeightWrap">
+
+                    </android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</layout>

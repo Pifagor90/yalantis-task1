@@ -8,5 +8,4 @@
                 android:clickable="false"
                 tools:showIn="@layout/partial_single_event_info_content">
 
-
 </View>

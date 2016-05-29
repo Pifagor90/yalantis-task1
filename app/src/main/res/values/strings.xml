@@ -5,6 +5,21 @@
     <string name="log_tag" translatable="false">Yalantis</string>
     <string name="error_uri_exception">Wrong uri was stored in database </string>
     <string name="error_data_retrieving_exception">There was an error during retrieving of data</string>
+    <string name="error_syncing_events.">Error syncing events.</string>
+    <string name="error_event_deserializer_parsing_photo_uri.">Error while parsing photos uri</string>
+    <string name="error_downloading_events">Error while downloading more for eventStateId </string>
+    <string name="error_persisting_fb_access_token">Error syncing fb AccessToken.</string>
+    <string name="error_persisting_fb_me_photos">Error syncing fb mePhotos.</string>
+    <string name="error_persisting_fb_profile">Error syncing fb profile.</string>
+    <string name="msg_connection_fail_no_connection">Sync canceled, connection not available</string>
+    <string name="msg_connection_available">Connection is now available, triggering sync…</string>
+    <string name="msg_sync_successful">Events synced successfully</string>
+    <string name="msg_download_events_successful">Downloaded more events for eventStateId </string>
+    <string name="msg_persisting_fb_access_token_successful">Fb AccessToken synced successfully</string>
+    <string name="msg_persisting_fb_me_photos_successful">Fb mePhotos synced successfully</string>
+    <string name="msg_persisting_fb_profile_successful">Fb profile synced successfully</string>
+    <string name="facebook_app_id">581701581991377</string>
+    <string name="facebook_permissions">public_profile, user_photos</string>
 
     <!-- SingleEventActivity-->
     <string name="single_event_activity_created">Created</string>
@@ -15,6 +30,9 @@
     <string name="single_event_activity_msg_state_button">Button state was pressed</string>
     <string name="single_event_activity_msg_image_part_1">ImageView #</string>
     <string name="single_event_activity_msg_image_part_2"> was pressed</string>
+    <string name="single_event_activity_event_deserializer_event_photos_initial_uri_path"
+            translatable="false">http://dev-contact.yalantis.com/files/ticket/</string>
+
 
     <!-- ListEventActivity-->
     <string name="list_event_activity_title">All requests</string>
@@ -24,46 +42,32 @@
     <string name="list_event_activity_nav_view_header_text">e-contact</string>
     <string name="list_event_activity_navigation_drawer_footer_text">Made with love</string>
     <string name="list_event_activity_navigation_drawer_footer_links"><a href="http://www.itruh.dp.ua/" target="_top">It Ruh Dnipro</a> and <a href="http://www.yalantis.com" target="_top">Yalantis</a></string>
+    <string name="list_event_activity_navigation_drawer_menu_log_out">Log out</string>
+    <string name="list_event_activity_navigation_drawer_menu_view_fb_profile">Fb profile</string>
+    <string name="list_event_activity_navigation_message_fb_logged_out">Logged out from Facebook</string>
 
     <string name="list_event_activity_navigation_drawer_menu_all_requests">All requests</string>
     <string name="list_event_activity_navigation_drawer_menu_requests_at_map">Requests at map</string>
     <string name="list_event_activity_navigation_drawer_menu_enter_account">Enter account</string>
+
+    <string name="list_event_activity_recycler_view_item_no_address">No address</string>
 
     <plurals name="list_event_activity_weird_days_counter">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>
     </plurals>
 
-    <!-- Entities-->
-    <string-array name="event_types">
-        <item>Municipal services</item>
-        <item>Cleaning and sanitary condition of territories</item>
-        <item>Questions regarding the overdue of electricity</item>
-    </string-array>
-
-    <string-array name="event_states">
-        <item>In progress</item>
-        <item>Done</item>
-        <item>Not done</item>
-    </string-array>
+    <string name="list_event_activity_event_service_request_in_progress">0,9,5,7,8</string>
+    <string name="list_event_activity_event_service_request_done">10,6</string>
+    <string name="list_event_activity_event_service_request_pending">1,3,4</string>
 
     <string name="event_state_in_progress">In progress</string>
     <string name="event_state_done">Done</string>
     <string name="event_state_waiting">Not done</string>
 
-    <!-- Data generation-->
-    <string name="data_generation_event_description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididuntut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
-    <string name="data_generation_company_name">Dnipr MVK</string>
-    <string-array name="data_generation_image_uris">
-        <item>http://i.imgur.com/JnogEyO.jpg</item>
-        <item>http://i.imgur.com/45M76q0.jpg</item>
-        <item>http://i.imgur.com/OB5xinf.jpg</item>
-        <item>http://i.imgur.com/HkdMadu.png</item>
-    </string-array>
-
-    <string-array name="data_generation_event_streets">
-        <item>Weird str.</item>
-        <item>Very very very very long street name str.</item>
-        <item>Short street str.</item>
-    </string-array>
+    <!-- FbProfileActivity-->
+    <string name="title_activity_fb_profile">FbProfileActivity</string>
+    <string name="partial_fb_profile_content_first_name">First name</string>
+    <string name="partial_fb_profile_content_middle_name">Middle name</string>
+    <string name="partial_fb_profile_content_last_name">Last name</string>
 </resources>

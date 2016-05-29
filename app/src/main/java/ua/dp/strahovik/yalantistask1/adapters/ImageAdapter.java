@@ -18,6 +18,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ua.dp.strahovik.yalantistask1.R;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
@@ -40,11 +42,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView mImageView;
+        @BindView(R.id.recycler_image_view) ImageView mImageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.recycler_image_view);
+            ButterKnife.bind(this, itemView);
         }
     }
 
@@ -65,13 +67,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     public void onBindViewHolder(ImageAdapter.ViewHolder holder, final int position) {
         URI uri = mList.get(position);
 
-        final int pos = position;
         ImageView imageView = holder.mImageView;
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mOnEventClickListener != null) {
-                    mOnEventClickListener.onItemClick(pos);
+                    mOnEventClickListener.onItemClick(position);
                 }
             }
         });

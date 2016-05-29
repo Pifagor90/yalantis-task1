@@ -15,8 +15,17 @@
     </group>
 
     <group
-        android:id="@+id/navigation_drawer_list_event_enter_account">
+        android:id="@+id/navigation_drawer_menu_account">
         <item
+            android:id="@+id/navigation_drawer_menu_account_enter_account"
             android:title="@string/list_event_activity_navigation_drawer_menu_enter_account"/>
+        <item
+            android:id="@+id/navigation_drawer_menu_account_view_fb_profile"
+            android:title="@string/list_event_activity_navigation_drawer_menu_view_fb_profile"
+            android:visible="false"/>
+        <item
+            android:id="@+id/navigation_drawer_menu_account_log_out"
+            android:title="@string/list_event_activity_navigation_drawer_menu_log_out"
+            android:visible="false"/>
     </group>
 </menu>

@@ -7,6 +7,7 @@ package ua.dp.strahovik.yalantistask1.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,13 +16,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 
 import ua.dp.strahovik.yalantistask1.R;
 import ua.dp.strahovik.yalantistask1.adapters.ImageAdapter;
+import ua.dp.strahovik.yalantistask1.databinding.ActivitySingleEventInfoBinding;
+import ua.dp.strahovik.yalantistask1.databinding.PartialSingleEventInfoContentBinding;
 import ua.dp.strahovik.yalantistask1.decorators.ImageRecyclerDecorator;
 import ua.dp.strahovik.yalantistask1.entities.Event;
 import ua.dp.strahovik.yalantistask1.presenters.SingleEventPresenter;
@@ -33,18 +35,14 @@ public class SingleEventInfoActivity extends AppCompatActivity implements Single
     private RecyclerView mRecyclerView;
 
     private Button mEventStateButton;
-    private TextView mCreationDateTextView;
-    private TextView mRegistrationDateTextView;
-    private TextView mDeadlineDateTextView;
-    private TextView mResponsibleTextView;
-    private TextView mDescriptionTextView;
 
     private Toolbar mToolbar;
     private ActionBar mActionBar;
-    private TextView mEventTypeTextView;
     private ImageAdapter mImageAdapter;
+    private ActivitySingleEventInfoBinding mActivitySingleEventInfoBinding;
+    private PartialSingleEventInfoContentBinding mInfoContentBinding;
 
-    public static Intent getStartIntent(Context context, String eventId) {
+    public static Intent getStartIntent(Context context, int eventId) {
         Intent intent = new Intent(context, SingleEventInfoActivity.class);
         intent.putExtra(EVENT_ID, eventId);
         return intent;
@@ -53,14 +51,14 @@ public class SingleEventInfoActivity extends AppCompatActivity implements Single
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_event_info);
+        mActivitySingleEventInfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_single_event_info);
         initWidgets();
         initRecycleView();
         initActionBar();
         setListeners();
         mSingleEventPresenter = new SingleEventPresenter(getApplicationContext());
         mSingleEventPresenter.attachView(this);
-        mSingleEventPresenter.loadEventById(getIntent().getStringExtra(EVENT_ID));
+        mSingleEventPresenter.loadEventById(getIntent().getIntExtra(EVENT_ID, -1));
     }
 
     @Override
@@ -70,22 +68,17 @@ public class SingleEventInfoActivity extends AppCompatActivity implements Single
     }
 
     private void initWidgets() {
-        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        mToolbar = mActivitySingleEventInfoBinding.toolbar;
         setSupportActionBar(mToolbar);
         mActionBar = getSupportActionBar();
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mEventTypeTextView = (TextView) findViewById(R.id.single_event_info_event_type);
-        mEventStateButton = (Button) findViewById(R.id.button_state);
-        mCreationDateTextView = (TextView) findViewById(R.id.created_date);
-        mRegistrationDateTextView = (TextView) findViewById(R.id.registred_date);
-        mDeadlineDateTextView = (TextView) findViewById(R.id.deadline_date);
-        mResponsibleTextView = (TextView) findViewById(R.id.responsible_name);
-        mDescriptionTextView = (TextView) findViewById(R.id.description_text);
+        mInfoContentBinding = mActivitySingleEventInfoBinding.singleEventInfoContent;
+
+        mRecyclerView = mInfoContentBinding.recyclerView;
+        mEventStateButton = mInfoContentBinding.buttonState;
     }
 
     private void initRecycleView() {
 
-        mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(),
                 LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -132,16 +125,11 @@ public class SingleEventInfoActivity extends AppCompatActivity implements Single
      *****/
 
     public void showEvent(Event event) {
-        mEventStateButton.setText(event.getEventState());
-        mActionBar.setTitle(event.getId());
-        mEventTypeTextView.setText(event.getEventType());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(getString
-                (R.string.single_event_activity_simple_date_format));
-        mCreationDateTextView.setText(simpleDateFormat.format(event.getCreationDate()));
-        mRegistrationDateTextView.setText(simpleDateFormat.format(event.getRegistrationDate()));
-        mDeadlineDateTextView.setText(simpleDateFormat.format(event.getDeadlineDate()));
-        mResponsibleTextView.setText(event.getResponsible().getName());
-        mDescriptionTextView.setText(event.getDescription());
+        mInfoContentBinding.setEvent(event);
+        mInfoContentBinding.setSimpleDateFormat(new SimpleDateFormat(getString
+                (R.string.single_event_activity_simple_date_format)));
+        mInfoContentBinding.executePendingBindings();
+        mActionBar.setTitle(event.getIdForOutput());
         mImageAdapter.setList(event.getPhotos());
         mImageAdapter.notifyDataSetChanged();
     }

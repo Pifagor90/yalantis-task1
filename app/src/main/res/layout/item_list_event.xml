@@ -1,110 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/item_list_event_LinearLayout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/item_list_event"
-    android:orientation="horizontal">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="simpleDateFormat"
+            type="java.text.SimpleDateFormat"/>
+        <variable
+            name="event"
+            type="ua.dp.strahovik.yalantistask1.entities.Event"/>
+    </data>
 
     <LinearLayout
-        android:layout_width="@dimen/item_list_event_left_width"
-        android:layout_height="@dimen/item_list_event_height"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/item_list_event_left_padding_Bottom"
-        android:paddingLeft="@dimen/item_list_event_left_padding"
-        android:paddingRight="@dimen/item_list_event_left_padding"
-        android:paddingTop="@dimen/item_list_event_left_paddingTop">
-
-        <ImageView
-            android:id="@+id/item_list_event_image_view_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center_horizontal"/>
-
-        <TextView
-            android:id="@+id/empty_spacer"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:clickable="false"
-            android:text=""/>
+        android:id="@+id/item_list_event_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_list_event"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:gravity="bottom">
+            android:layout_width="@dimen/item_list_event_left_width"
+            android:layout_height="@dimen/item_list_event_height"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/item_list_event_left_padding_Bottom"
+            android:paddingLeft="@dimen/item_list_event_left_padding"
+            android:paddingRight="@dimen/item_list_event_left_padding"
+            android:paddingTop="@dimen/item_list_event_left_paddingTop">
 
             <ImageView
-                android:id="@+id/image_view_fb_thumbs_up"
-                android:layout_width="@dimen/fb_thumbs_up_width"
-                android:layout_height="@dimen/fb_thumbs_up_height"
-                android:layout_gravity="bottom"
-                android:gravity="bottom"
-                android:src="@drawable/ic_thumb_up"/>
+                android:id="@+id/item_list_event_image_view_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:src="@drawable/ic_event_type_doc"/>
 
             <TextView
-                android:id="@+id/item_list_event_fb_counter"
+                android:id="@+id/empty_spacer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:text=""/>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:gravity="bottom"
-                android:paddingLeft="@dimen/min_padding"
-                android:textSize="@dimen/text_size"/>
+                android:gravity="bottom">
+
+                <ImageView
+                    android:id="@+id/image_view_fb_thumbs_up"
+                    android:layout_width="@dimen/fb_thumbs_up_width"
+                    android:layout_height="@dimen/fb_thumbs_up_height"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:src="@drawable/ic_thumb_up"/>
+
+                <TextView
+                    android:id="@+id/item_list_event_fb_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:paddingLeft="@dimen/min_padding"
+                    android:textSize="@dimen/text_size"
+                    android:inputType="numberDecimal"
+                    android:text='@{"" + event.getLikeCounter}'/>
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
-
-    <include layout="@layout/divider_vertical"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_list_event_height"
-        android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
-
-        <TextView
-            android:id="@+id/item_list_event_text_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="top"
-            android:maxLines="2"
-            android:textColor="@color/content_main_input_TextColor"
-            android:textSize="@dimen/item_list_event_text_type"/>
-
-        <TextView
-            android:id="@+id/item_list_event_text_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@color/black_87"
-            android:textSize="@dimen/text_size"/>
+        <include layout="@layout/divider_vertical"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="@dimen/item_list_event_height"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin">
 
             <TextView
-                android:id="@+id/item_list_event_text_date"
-                style="@style/ItemListEventActivityData"
-                android:layout_weight="0.8"/>
+                android:id="@+id/item_list_event_text_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="top"
+                android:maxLines="2"
+                android:textColor="@color/content_main_input_TextColor"
+                android:textSize="@dimen/item_list_event_text_type"
+                android:text="@{event.getEventType}"/>
 
             <TextView
-                android:id="@+id/item_list_event_text_weird_data"
-                style="@style/ItemListEventActivityData"
-                android:layout_weight="0.2"
-                android:gravity="right"
-                android:paddingRight="@dimen/min_padding"/>
+                android:id="@+id/item_list_event_text_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/black_87"
+                android:textSize="@dimen/text_size"
+                android:text="@{ event.getAddress() != null ? event.getAddress().getFormattedToString() : @string/list_event_activity_recycler_view_item_no_address}"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/item_list_event_text_date"
+                    style="@style/ItemListEventActivityData"
+                    android:layout_weight="0.8"
+                    android:text="@{simpleDateFormat.format(event.getCreationDate())}"/>
+
+                <TextView
+                    android:id="@+id/item_list_event_text_weird_data"
+                    style="@style/ItemListEventActivityData"
+                    android:layout_weight="0.2"
+                    android:gravity="right"
+                    android:paddingRight="@dimen/min_padding"
+                    app:creationDate="@{event.getCreationDate()}"
+                    app:deadlineDate="@{event.getDeadlineDate()}"/>
+
+            </LinearLayout>
         </LinearLayout>
+
+
     </LinearLayout>
-
-
-</LinearLayout>
+</layout>
