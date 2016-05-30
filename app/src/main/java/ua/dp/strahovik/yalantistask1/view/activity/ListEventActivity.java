@@ -201,8 +201,12 @@ public class ListEventActivity extends AppCompatActivity
 
     private void setLoadingStateToExistingFragment(int[] request, boolean isLoading) {
         for (Fragment fragment  : getSupportFragmentManager().getFragments()){
-            if (Arrays.equals(request, ((ListEventFragment) fragment).getEventStateId())){
-                ((ListEventFragment) fragment).setIsLoading(isLoading);
+            try {
+                if (Arrays.equals(request, ((ListEventFragment) fragment).getEventStateId())) {
+                    ((ListEventFragment) fragment).setIsLoading(isLoading);
+                }
+            } catch (NullPointerException e){
+                continue;
             }
         }
     }
