@@ -1,4 +1,4 @@
-# yalantis-task1
+# Android
 
 UI mistakes:
 Different distance between rows
